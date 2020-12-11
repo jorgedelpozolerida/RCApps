@@ -23,6 +23,9 @@
 
 ui <- fluidPage(
   
+  # Initialize shinyjs
+  shinyjs::useShinyjs(),
+  
   # Application title
   titlePanel("Simple qPCR Analyzer"),
   

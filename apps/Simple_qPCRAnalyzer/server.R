@@ -45,10 +45,10 @@ server <- function(input, output) {
   # ---------------- DATA USAGE AND PROCESSING ---------------------------------
   
   # Get selection data list, containing reactive values inside
-  selected_chambers <- mod_chamberSelectorServer("chambers1")
+  selected_chambers <- mod_chamberSelectorServer("chambers1", showxtalk=TRUE)
   # For troubleshooting displayed text
   output$text <- renderText({ # selected_chambers$allplots()
-    # current_testID()
+    #selected_chambers$CH_xtalk()
   })
   # Amplification plot Server part inputting raw data and selection data
   mod_amplificationPlotterServer("plot1", rawdata, selected_chambers, current_testID())

@@ -3,6 +3,7 @@
 
 
 
+
 # core tidyverse
 library(tidyverse) #ggplot2, dplyr, tidyr, readr, purrr, tibble, stringr, forcats
 
@@ -37,11 +38,13 @@ library(plotly)
 
 
 # complementary shiny packages
+library(shinyjs)
+library(shinydashboard)
 library(DT)
 library(shinyWidgets)
 library(ggpubr) #TO DO: check exact functions
 library(stringr)
-
+options(shiny.maxRequestSize=3000*1024^2) # increase shiny maximum upload size
 
 # Others
 library(withr)

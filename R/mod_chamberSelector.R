@@ -1,4 +1,26 @@
-# MODULE FOR SELECTING DESIRED SENSOR, CHAMBER AND CROSSTALK CORRECTION.
+## ---------------------------
+##
+## Script name: MODULE FOR SELECTING DESIRED SENSOR, CHAMBER AND CROSSTALK CORRECTION.
+##
+## Purpose of script:
+##
+## Author: jorgedelpozolerida
+##
+## Date Created: 2020-12-11
+##
+## Email: jorge.delpozo@qiagen.com / jorgedelpozolerida@gmail.com
+##
+## ---------------------------
+##
+## Notes:
+##   
+##
+## ---------------------------
+##
+#' TO DO:
+#'
+#' Solve showing  
+
 
 
 
@@ -37,10 +59,10 @@ CH_xtalk_choices <- list(
 
 # ui function --------------------------------------------------------------
 
-mod_chamberSelectorUI <- function(id, label = "Cartridge Selected",
-                                  maxoptions = 8) {
+mod_chamberSelectorUI <- function(id) {
+  
   ns <- NS(id)
-
+  
   # three columns, each containing one group of checkboxes
   tagList(
     fluidRow(
@@ -64,11 +86,14 @@ mod_chamberSelectorUI <- function(id, label = "Cartridge Selected",
       ),
       column(
         4,
-        checkboxGroupInput(
-          ns("CH_xtalk"),
-          label = "X-talk Correction",
-          choices = CH_xtalk_choices,
-          selected = NULL
+        conditionalPanel(
+          condition = "output.showxtalk", # in javaScript
+          checkboxGroupInput(
+            ns("CH_xtalk"),
+            label = "X-talk Correction",
+            choices = CH_xtalk_choices,
+            selected = NULL
+          )
         )
       )
     ),
@@ -84,7 +109,11 @@ mod_chamberSelectorUI <- function(id, label = "Cartridge Selected",
       ),
       column(
         4,
-        checkboxInput(ns("checkallxtalk"), "Check all")
+        conditionalPanel(
+          condition = "output.showxtalk", # in javaScript
+          checkboxInput(ns("checkallxtalk"), "Check all")
+        )
+        
       )
     ),
     materialSwitch(ns("faceting"), "Faceting", FALSE,
@@ -112,10 +141,16 @@ mod_chamberSelectorUI <- function(id, label = "Cartridge Selected",
 
 #' }
 
-mod_chamberSelectorServer <- function(id) {
+mod_chamberSelectorServer <- function(id,
+                                      showxtalk= FALSE) {
   moduleServer(
     id,
     function(input, output, session) {
+      
+      # Create bool output for controlling whether to show xtalk checkboxes
+      output$showxtalk <- reactive({ showxtalk })
+      
+      # Update checkboxinputs 
       observe({
         updateCheckboxGroupInput(
           session, "RC",
