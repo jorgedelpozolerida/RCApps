@@ -100,7 +100,7 @@ mod_amplificationPlotterServer <- function(id, data, selected_chambers, current_
       
       # Process data conveniently
       datap <- reactive({
-        data() %>%
+        data() %>% # data is passed as reactive and must be extracted
           mutate(RC = as.character(RC)) %>%
           gather(
             key = Sensor, # make data tidy

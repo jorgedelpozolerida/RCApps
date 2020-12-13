@@ -13,6 +13,7 @@ library(DBI) #for relational databases
 library(httr) #for web APIS (In2Data API here)
 library(readxl) #for excel sheets (.xls or .xlsx) 
 library(jsonlite) #for JSON
+library(XML) #for XML
 library(xml2) #for XML
 
 

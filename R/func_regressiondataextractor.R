@@ -24,6 +24,9 @@
 
 
 func_dataextractorfromconfigfile <- function(configfilepath) {
+  if (is.null(configfilepath)){
+    return(NULL)
+  }  
   doc <- xmlTreeParse(configfilepath, useInternalNodes = TRUE)
   
   
@@ -157,4 +160,43 @@ func_dataextractorfromconfigfile <- function(configfilepath) {
   
 }
 
+
+func_dataextractorfromzipfile <- function(datasetpath) {
+  data_path <- datasetpath # get file path
+  # return NULL if no zip file selected and exit execution
+  if (is.null(data_path)){
+    return(NULL)
+  }
+  
+  unzip(data_path$datapath, # unzip file into temporary directory
+        exdir = tempdir())   
+  
+  df <- readRDS(file.path(tempdir(), 'df.RDS')) # read form temporary dir
+  
+  targ <- df %>%
+    select(id, targets, metadata) %>% 
+    unnest(metadata) %>%
+    select(id, uid, group, targets) %>% 
+    unnest(targets) %>% 
+    select(id, uid, rc, ch, ct, ep, ep_cp7,
+           baseline_pre, cp8_dEP, cp8_snr, cp8_rmse, cp8_ct,
+           alpha, beta, a, b, c0, result,
+           expected, concordance, group) %>% 
+    mutate(idx = paste0(id, rc, ch))
+  
+  
+  mess <- df %>% 
+    select(id, messages) %>% 
+    unnest(messages) %>% 
+    filter(rc != 'NA') %>% 
+    mutate_at(vars(rc, ch), as.numeric) %>% 
+    mutate(idx = paste0(id, rc, ch))
+  
+  rm(df) # remove data frame not to slow down execution 
+  
+  # Return list of two data frames: targets and messages.
+  return(list(targets = targ,
+              messages = mess ))
+  
+}
 

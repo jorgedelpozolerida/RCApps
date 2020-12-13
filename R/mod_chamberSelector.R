@@ -116,10 +116,14 @@ mod_chamberSelectorUI <- function(id) {
         
       )
     ),
-    materialSwitch(ns("faceting"), "Faceting", FALSE,
-      right = TRUE,
-      status = "info"
+    conditionalPanel(
+      condition = "output.showfaceting", # in javaScript
+      materialSwitch(ns("faceting"), "Faceting", FALSE,
+                     right = TRUE,
+                     status = "info"
+      )
     )
+    
   )
 }
 
@@ -142,13 +146,15 @@ mod_chamberSelectorUI <- function(id) {
 #' }
 
 mod_chamberSelectorServer <- function(id,
-                                      showxtalk= FALSE) {
+                                      showxtalk=FALSE,
+                                      showfaceting=TRUE) {
   moduleServer(
     id,
     function(input, output, session) {
       
-      # Create bool output for controlling whether to show xtalk checkboxes
+      # Create bool outputs for controlling what is shown
       output$showxtalk <- reactive({ showxtalk })
+      output$showfaceting <- reactive({ showfaceting })
       
       # Update checkboxinputs 
       observe({

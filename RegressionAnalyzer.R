@@ -28,13 +28,13 @@ library(shiny)
 sapply(list.files("./R", full.names = TRUE), source)
 
 
-# ----------------------- App Directory ----------------------------------------
+# App Directory ----------------------------------------------------------------
 
 RegressionAnalyzer_path <- file.path(
   read_json("./info/paths.json")$project_dir,
   read_json("./info/paths.json")$RegressionAnalyzer 
 )
 
-# ----------------------- Run App ----------------------------------------------
+# Run App ----------------------------------------------------------------------
 
 runApp(file.path(RegressionAnalyzer_path))

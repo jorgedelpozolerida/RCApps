@@ -47,58 +47,26 @@ mod_regressiondataimporterServer <- function(id) {
     id,
     function(input, output, session) {
       
-      # Load regression datazip and return relevant data: messages and targets
-      dataset_data <- reactive({
-        
-        data_path <- input$input_dataset # get file path
-        # return NULL if no zip file selected and exit execution
-        if (is.null(data_path)){
-          return(NULL)
-        }
-        
-        unzip(data_path$datapath, # unzip file into temporary directory
-              exdir = tempdir())   
-        
-        df <- readRDS(file.path(tempdir(), 'df.RDS')) # read form temporary dir
-        
-        targets <- df %>%
-          select(id, targets, metadata) %>% 
-          unnest(metadata) %>%
-          select(id, uid, group, targets) %>% 
-          unnest(targets) %>% 
-          select(id, uid, rc, ch, ct, ep, ep_cp7,
-                 baseline_pre, cp8_dEP, cp8_snr, cp8_rmse, cp8_ct,
-                 alpha, beta, a, b, c0, result,
-                 expected, concordance, group) %>% 
-          mutate(idx = paste0(id, rc, ch))
-        
-        
-        messages <- df %>% 
-          select(id, messages) %>% 
-          unnest(messages) %>% 
-          filter(rc != 'NA') %>% 
-          mutate_at(vars(rc, ch), as.numeric) %>% 
-          mutate(idx = paste0(id, rc, ch))
-        
-        rm(df) # remove data frame not to slow down execution 
-        
-        return(list(targets = reactive({ targets }),
-                    messages = reactive({ messages })))
-        
+      # Load regression datazip and return list with messages and targets
+      zipdata <- reactive ({
+        func_dataextractorfromzipfile(input$input_dataset)
       })
+        
+      messages <-zipdata()$messages 
+        
+      targets <-zipdata()$targets 
+        
       
       # Load config file data
-      conf_xml <- reactive({
-        cfg_path <- input$input_config
-        cfg <- func_dataextractorfromconfigfile(cfg_path$datapath)
-        # return config data frame. TO DO: necessary to write return?
-        return(cfg)
-      })
+      cfg_path <- reactive ({ input$input_config })
+      conf_xml <- func_dataextractorfromconfigfile(cfg_path()$datapath)
+
       
       
       return(list(
-        data = dataset_data,
-        conf = conf_xml
+        targets =  reactive ({ targets }),
+        messages = reactive ({ messages}),
+        conf = reactive ({ conf_xml})
       )) 
     }
   )
