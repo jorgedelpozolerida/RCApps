@@ -23,7 +23,10 @@
 
 
 ui <- fluidPage(
-
+  
+  # Enable shinyjs
+  useShinyjs(),
+  
   # Application title
   titlePanel("Regression Analyzer"),
 
@@ -36,6 +39,24 @@ ui <- fluidPage(
         mod_chamberSelectorUI('chambers1')
         
       ),
+      conditionalPanel(condition = "input.tabs == 'Raw Data Visualization'",
+                       # Select which dataframe to display
+                       radioButtons(
+                         inputId = "dataset",
+                         label = "Data:",
+                         choices = list(
+                           "Targets" = "targets_r",
+                           "Messages" = "messages_r",
+                           "Configuration" = "conf_r"
+                         ),
+                         inline = TRUE
+                       ),
+                       mod_cartridgeSelectorUI('selectedtest1')
+                       
+                       
+                       
+                       #show controls here
+      ),
       textOutput("text") # used for troubleshooting
       
     ),
@@ -47,13 +68,10 @@ ui <- fluidPage(
         tabPanel(
           "Raw Data Visualization",
           # mod_regressiondataexplorer("plot1") # amplification plot UI
-          DT::dataTableOutput("regressiondata") # Displayed table
+          # DT::dataTableOutput("regressiondata") # Displayed table
+          mod_regressiondataexplorerUI("displayedregressiondata1")
           
           ),
-        tabPanel(
-          "Result Individual",
-          # mod_regressiondataexplorer()
-        ),
         tabPanel(
           "Scatter & SNR plots",
           # mod_regressionplotter()

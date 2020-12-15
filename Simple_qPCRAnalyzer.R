@@ -1,6 +1,7 @@
 # SIMPLE QPCR ANALYZER
 library(shiny)
 sapply(list.files("./R", full.names = TRUE), source)
+suppressMessages(library(shiny, quietly = TRUE))
 
 #' TO DO:
 #' use suppressMessages(library(shiny, quietly = TRUE))?

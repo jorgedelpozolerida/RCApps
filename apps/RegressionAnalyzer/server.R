@@ -22,6 +22,7 @@
 #' Control only selecting one combination of Rc and CH
 
 
+
 server <- function(input, output) {
   
   # ----------------------- DATA IMPORT ----------------------------------------
@@ -29,33 +30,54 @@ server <- function(input, output) {
   # Get list with messages, targets and configuration
   regression_data <- mod_regressiondataimporterServer("regressiondata1") 
   # Get reactive elements from list  
-  messages_r <- regression_data$messages_r
+  messages_r <- reactive ({ regression_data$messages_r()  })
   targets_r <-regression_data$targets_r
   conf_xml_r <- regression_data$conf_r
 
   
   # ---------------------------- DATA SELECTION --------------------------------
   
-  selectedchambers_r <- mod_chamberSelectorServer("chambers1", showxtalk=FALSE, 
+  selectedchambersforscatter_r <- mod_chamberSelectorServer("chambers1", showxtalk=FALSE, 
                                                 showfaceting=FALSE)
-  # current_testID_r <- mod_cartridgeSelectorServer("testID_1")$testID
-  
+
+  choicelist_r <- reactive ({
+    unique(messages_r()$id)
+  })
+  current_testID_r <- mod_cartridgeSelectorServer('selectedtest1', 
+                                                  fromcsv = FALSE,
+                                                  choicelist = choicelist_r )$testID
+  selecteddatafordisplay_r <- reactive ({
+    selected <- regression_data[[as.character(input$dataset)]]()
+    if (input$dataset != 'conf_r' & !is.null(current_testID_r())){
+      selected %>% 
+        filter(id %in% current_testID_r())
+    } else{
+      selected
+    }
+  })
   
   # ----------------------- DATA USAGE AND PROCESSING --------------------------
   
   mod_regressionscatterplotterServer('exclusion1', conf_xml_r, targets_r, 
-                                     messages_r, selectedchambers_r)
+                                     messages_r, selectedchambersforscatter_r)
 
   # --------------------------------- OUTPUTS ----------------------------------
   
   output$text <- renderText({
-    # length(regression_data)
+    input$dataset
   })
+  
+  mod_regressiondataexplorerServer('displayedregressiondata1', 
+                                   selecteddatafordisplay_r)
+  
+  
   output$regressiondata <- DT::renderDataTable({
     DT::datatable({
       targets_r()
     })
   })
+  
+
 
   
 }

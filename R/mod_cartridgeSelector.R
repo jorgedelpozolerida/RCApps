@@ -62,8 +62,8 @@ mod_cartridgeSelectorUI <- function(id,
           condition = paste0("!","input['", ns("multi"), "']"), # in javaScript
           selectInput(ns("selected_cartridge"),
                       label = "Cartridge Selected",
-                      choices = "180116166",
-                      selected = "180116166", 
+                      choices = NULL,
+                      selected = NULL, 
                       multiple = TRUE # TO DO: solve passing null...
                       # options = list(maxOptions = maxoptions)
           )
@@ -94,7 +94,7 @@ mod_cartridgeSelectorUI <- function(id,
 #'   \item{testID}{reactive character string indicating testID selected}
 #' }
 
-mod_cartridgeSelectorServer <- function(id) {
+mod_cartridgeSelectorServer <- function(id, fromcsv=TRUE, choicelist_r=NULL) {
   moduleServer(
     id,
     function(input, output, session) {
@@ -109,8 +109,8 @@ mod_cartridgeSelectorServer <- function(id) {
       observe(
         updateSelectInput(session,
           "selected_cartridge",
-          choices = cartridge_list$testID,
-          selected = '180116166'),
+          choices = if (fromcsv) cartridge_list$testID else choicelist_r(),
+          selected = if (fromcsv) cartridge_list$testID[1] else NULL),
           # server:	whether to store choices
         # on the server side, and load the select
         # options dynamically on searching, instead

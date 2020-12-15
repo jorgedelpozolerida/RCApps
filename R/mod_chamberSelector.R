@@ -24,7 +24,7 @@
 
 
 
-# Create useful variables for later use
+# Create variables -------------------------------------------------------------
 
 RC_choices <- list(
   "RC 1" = 1,
@@ -81,7 +81,7 @@ mod_chamberSelectorUI <- function(id) {
           ns("CH"),
           label = "Channel",
           choices = CH_choices,
-          selected = "S4"
+          selected = "S0"
         )
       ),
       column(
@@ -168,7 +168,7 @@ mod_chamberSelectorServer <- function(id,
         updateCheckboxGroupInput(
           session, "CH",
           choices = CH_choices,
-          selected = if (input$checkallCH) CH_choices else "S4"
+          selected = if (input$checkallCH) CH_choices else "S0"
         )
       })
       observe({

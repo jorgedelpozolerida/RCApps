@@ -48,16 +48,11 @@ mod_regressionscatterplotterServer <- function(id, conf_xml_r, targets_r,
       
       # ---------------------- DATA PROCESSING ---------------------------------
 
+      # Get selected RC and Ch for filtering data within modules
       RC_r <- selected_chambers_r$RC_r
       CH_r <- selected_chambers_r$CH_r #passed as "S"+"integer"
       
-      # subset_conf_xml_r <- reactive({
-      #   CH <- gsub(".*?([0-9]+).*", "\\1", CH) # get number only 
-      #   tmp <- conf_xml_r() %>% # data is passed as reactive and must be extracted
-      #     # mutate(rc = as.character(rc)) %>% # commeted bcs it should not be necessary
-      #     filter(rc == as.character(RC_r()), ch == as.character(CH_r())) # TO DO: %in% better????
-      # })
-      
+
       # ----------------------  PLOTs CREATION ---------------------------------
       
       scatter_plot_r <- reactive({

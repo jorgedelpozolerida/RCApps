@@ -114,7 +114,7 @@ func_dataextractorfromconfigfile <- function(configfilepath) {
     reduce(left_join, by = c("rc", "ch")) %>%
     mutate_all(replace_na, replace = 0) %>%  # replace all na
     mutate_all(as.numeric) %>% # make numeric 
-    mutate_at(c('rc','ch'), as.character) # turn rc and ch character
+    mutate_at(c('rc','ch'), as.factor) # turn rc and ch character
   
   # Return config data frame
   configurationdata
@@ -137,7 +137,7 @@ func_dataextractorfromzipfile <- function(datasetpath) {
     unnest(metadata) %>%
     select(id, uid, group, targets) %>%
     unnest(targets) %>%
-    mutate_at(c('rc', 'ch'), as.character) %>% # TO DO: investigate implications of having these as charcter
+    mutate_at(c("id", "uid","rc","ch"), as.factor) %>% # TO DO: investigate implications of having these as charcter
     select(
       id, uid, rc, ch, ct, ep, ep_cp7,
       baseline_pre, cp8_dEP, cp8_snr, cp8_rmse, cp8_ct,
@@ -151,9 +151,10 @@ func_dataextractorfromzipfile <- function(datasetpath) {
     select(id, messages) %>%
     unnest(messages) %>%
     filter(rc != "NA") %>%
-    mutate_at(vars(rc, ch), as.character) %>% # TO DO: investigate implications of having these as charcter
-    mutate(idx = paste0(id, rc, ch))
+    mutate(idx = paste0(id, rc, ch)) %>% 
+    mutate_at(c("id","rc", "ch","cp","codeblock","result","idx"), as.factor) # TO DO: investigate implications of having these as charcter
 
+    
   rm(df) # remove data frame not to slow down execution by overloadinf cache
 
   # Return list of two data frames: targets and messages.

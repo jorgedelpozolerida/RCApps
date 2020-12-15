@@ -28,7 +28,7 @@ library(magrittr)
 # other data manipulation
 
 library(reshape2) 
-
+# library(esquisse) # to explore data quickly
 
 # custom R package for interaction with In2Data
 library(RCAutils)
