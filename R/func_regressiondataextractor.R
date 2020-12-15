@@ -19,184 +19,146 @@
 ##
 #' TO DO:
 #'
-#'
+#'Imprpve computing time for zip function
 
 
+# Necessary variables --------------------------------------------------------------
 
-func_dataextractorfromconfigfile <- function(configfilepath) {
-  if (is.null(configfilepath)){
-    return(NULL)
-  }  
-  doc <- xmlTreeParse(configfilepath, useInternalNodes = TRUE)
-  
-  
-  
-  cfg <- as.data.frame(t(
-    xmlSApply(
-      getNodeSet(
-        doc,
-        "//Parameter[@name='FINAL_MIN_AMPLIFICATION_DELTA']"
-      ),
-      xmlAttrs
-    )
-  ),
-  stringsAsFactors = FALSE
-  )
-  
-  names(cfg)[which(names(cfg) == "reactionChamber")] <- "rc"
-  names(cfg)[which(names(cfg) == "channel")] <- "ch"
+
+attributes <- c(
+  "FINAL_MIN_AMPLIFICATION_DELTA",
+  "ABN_AMPLIFICATION_DELTA",
+  "CYCLE_THRESHOLD_ABN_LOW",
+  "CYCLE_THRESHOLD_ABN_HIGH",
+  "CYCLE_THRESHOLD_MAX",
+  "CYCLE_THRESHOLD_MIN"
+)
+
+attribute_name <- c(
+  "delta.enpoint",
+  "delta.enpoint.abn",
+  "ct.low",
+  "ct.high",
+  "ct.threshold",
+  "ct.threshold.min"
+)
+
+
+# Necessary functions --------------------------------------------------------------
+
+func_extractattributefromconfigxml <- function(att,
+                                         att_name,
+                                         xmldoc) {
+  # Get values
   tmp <- as.data.frame(
+    # Apply a function to subnodes before they are returned to R (quicker approach)
     (xmlSApply(
+      # Find matching nodes using XPath syntax
       getNodeSet(
-        doc,
-        "//Parameter[@name='FINAL_MIN_AMPLIFICATION_DELTA']"
+        xmldoc,
+        # Syntax: selects all the Parameter elements that have a "name" attribute
+        # with a value of "attribute"
+        paste0("//Parameter[@name='", att, "']")
       ),
-      xmlValue
+      xmlValue # function: extract or set the contents of a leaf XML node
     )
     ),
     stringsAsFactors = FALSE
-  )
-  
-  names(tmp) <- "delta.enpoint"
-  cfg <- cbind(cfg, tmp)
-  cfg <- cfg[, -which(names(cfg) == "name")]
-  
-  tmp <- cbind(
-    as.data.frame(t(xmlSApply(
-      getNodeSet(doc,
-                 "//Parameter[@name='ABN_AMPLIFICATION_DELTA']"),
-      xmlAttrs)), stringsAsFactors = FALSE),
-    as.data.frame((
-      xmlSApply(getNodeSet(doc,
-                           "//Parameter[@name='ABN_AMPLIFICATION_DELTA']"),
-                xmlValue)), stringsAsFactors = FALSE)
-  )
-  names(tmp)[which(names(tmp) == "reactionChamber")] <- "rc"
-  names(tmp)[which(names(tmp) == "channel")] <- "ch"
-  tmp <- tmp[, -which(names(tmp) == "name")]
-  names(tmp)[ncol(tmp)] <- "delta.enpoint.abn"
-  cfg <- merge(cfg, tmp, all.x = TRUE)
-  
-  tmp <- cbind(
-    as.data.frame(t(
-      xmlSApply(getNodeSet(doc,
-                           "//Parameter[@name='CYCLE_THRESHOLD_ABN_LOW']"),
-                xmlAttrs)), stringsAsFactors = FALSE),
-    as.data.frame((
-      xmlSApply(getNodeSet(doc,
-                           "//Parameter[@name='CYCLE_THRESHOLD_ABN_LOW']"),
-                xmlValue)), stringsAsFactors = FALSE)
-  )
-  names(tmp)[which(names(tmp) == "reactionChamber")] <- "rc"
-  names(tmp)[which(names(tmp) == "channel")] <- "ch"
-  tmp <- tmp[, -which(names(tmp) == "name")]
-  names(tmp)[ncol(tmp)] <- "ct.low"
-  cfg <- merge(cfg, tmp, all.x = TRUE)
-  
-  tmp <- cbind(
-    as.data.frame(t(
-      xmlSApply(getNodeSet(doc,
-                           "//Parameter[@name='CYCLE_THRESHOLD_ABN_HIGH']"),
-                xmlAttrs)), stringsAsFactors = FALSE),
-    as.data.frame((
-      xmlSApply(getNodeSet(doc,
-                           "//Parameter[@name='CYCLE_THRESHOLD_ABN_HIGH']"),
-                xmlValue)), stringsAsFactors = FALSE)
-  )
-  
-  names(tmp)[which(names(tmp) == "reactionChamber")] <- "rc"
-  names(tmp)[which(names(tmp) == "channel")] <- "ch"
-  tmp <- tmp[, -which(names(tmp) == "name")]
-  names(tmp)[ncol(tmp)] <- "ct.high"
-  cfg <- merge(cfg, tmp, all.x = TRUE)
-  
-  tmp <- cbind(
-    as.data.frame(t(
-      xmlSApply(getNodeSet(doc,
-                           "//Parameter[@name='CYCLE_THRESHOLD_MAX']"),
-                xmlAttrs)), stringsAsFactors = FALSE),
-    as.data.frame((
-      xmlSApply(getNodeSet(doc,
-                           "//Parameter[@name='CYCLE_THRESHOLD_MAX']"),
-                xmlValue)), stringsAsFactors = FALSE)
-  )
-  
-  names(tmp)[which(names(tmp) == "reactionChamber")] <- "rc"
-  names(tmp)[which(names(tmp) == "channel")] <- "ch"
-  tmp <- tmp[, -which(names(tmp) == "name")]
-  names(tmp)[ncol(tmp)] <- "ct.threshold"
-  cfg <- merge(cfg, tmp, all.x = TRUE)
-  
-  tmp <- cbind(
-    as.data.frame(t(
-      xmlSApply(getNodeSet(doc,
-                           "//Parameter[@name='CYCLE_THRESHOLD_MIN']"),
-                xmlAttrs)), stringsAsFactors = FALSE),
-    as.data.frame((
-      xmlSApply(getNodeSet(doc,
-                           "//Parameter[@name='CYCLE_THRESHOLD_MIN']"),
-                xmlValue)), stringsAsFactors = FALSE)
-  )
-  
-  names(tmp)[which(names(tmp) == "reactionChamber")] <- "rc"
-  names(tmp)[which(names(tmp) == "channel")] <- "ch"
-  tmp <- tmp[, -which(names(tmp) == "name")]
-  names(tmp)[ncol(tmp)] <- "ct.threshold.min"
-  cfg <- merge(cfg, tmp, all.x = TRUE)
-  
-  
-  
-  cfg$delta.enpoint <- as.numeric(cfg$delta.enpoint)
-  cfg$delta.enpoint.abn <- as.numeric(cfg$delta.enpoint.abn)
-  cfg$ct.low <- as.numeric(cfg$ct.low)
-  cfg$ct.high <- as.numeric(cfg$ct.high)
-  cfg$ct.threshold <- as.numeric(cfg$ct.threshold)
-  cfg$ct.threshold.min <- as.numeric(cfg$ct.threshold.min)
-  
-  cfg[is.na(cfg)] <- 0
+  ) %>%
+    set_colnames(c(att_name))
 
-  # Return config data frame
-  return(cfg)
-  
+  # Get RC and Sensor(CH) id and bind to previous
+  cfg <- as.data.frame(t(
+    xmlSApply(
+      getNodeSet(
+        xmldoc,
+        paste0("//Parameter[@name='", att, "']")
+      ),
+      xmlAttrs # function: returns a named character vector giving the name-value
+      # pairs of attributes of an XMLNode object
+    )
+  ),
+  stringsAsFactors = FALSE # character vector converted to a factor
+  ) %>%
+    rename(rc = "reactionChamber", ch = "channel") %>% # rename columns of dataframe
+    cbind(tmp) %>% # bind to values
+    select(-name) # deselect name col
+
+  # Return configuration info for that attribute
+  cfg
 }
 
 
-func_dataextractorfromzipfile <- function(datasetpath) {
-  data_path <- datasetpath # get file path
-  # return NULL if no zip file selected and exit execution
-  if (is.null(data_path)){
+# Core functions ---------------------------------------------------------------
+
+
+func_dataextractorfromconfigfile <- function(configfilepath) {
+
+
+  # ------------------------- LOAD XML FILE AND CONTROL EMPTY VALUES------------
+
+  if (is.null(configfilepath)) {
     return(NULL)
   }
+
+  # Generate R structure representing XML tree
+  xmldoc <- xmlTreeParse(configfilepath, useInternalNodes = TRUE)
+
+  # ------------------------- EXTRACT INFO FROM ALL ATRIBUTTES AND JOIN---------
+  configurationdata <- map2(
+    attributes, # variable defined in the beginning of the file
+    attribute_name, # same
+    func_extractattributefromconfigxml,
+    xmldoc = xmldoc
+  ) %>%
+    reduce(left_join, by = c("rc", "ch")) %>%
+    mutate_all(replace_na, replace = 0) %>%  # replace all na
+    mutate_all(as.numeric) %>% # make numeric 
+    mutate_at(c('rc','ch'), as.character) # turn rc and ch character
   
-  unzip(data_path$datapath, # unzip file into temporary directory
-        exdir = tempdir())   
-  
-  df <- readRDS(file.path(tempdir(), 'df.RDS')) # read form temporary dir
-  
-  targ <- df %>%
-    select(id, targets, metadata) %>% 
-    unnest(metadata) %>%
-    select(id, uid, group, targets) %>% 
-    unnest(targets) %>% 
-    select(id, uid, rc, ch, ct, ep, ep_cp7,
-           baseline_pre, cp8_dEP, cp8_snr, cp8_rmse, cp8_ct,
-           alpha, beta, a, b, c0, result,
-           expected, concordance, group) %>% 
-    mutate(idx = paste0(id, rc, ch))
-  
-  
-  mess <- df %>% 
-    select(id, messages) %>% 
-    unnest(messages) %>% 
-    filter(rc != 'NA') %>% 
-    mutate_at(vars(rc, ch), as.numeric) %>% 
-    mutate(idx = paste0(id, rc, ch))
-  
-  rm(df) # remove data frame not to slow down execution 
-  
-  # Return list of two data frames: targets and messages.
-  return(list(targets = targ,
-              messages = mess ))
-  
+  # Return config data frame
+  configurationdata
 }
 
+func_dataextractorfromzipfile <- function(datasetpath) {
+
+
+  # ------------------------- LOAD ZIP FILE AND READ ---------------------------
+  
+  con <- unz(datasetpath, filename = "df.RDS") # reads(only) single file within zip in binary mode
+  con2 <- gzcon(con) # wraps the existing connection "con", and decompresses reads through "con"
+  df <- readRDS(con2)
+  close(con2)
+
+
+  # ------------------------- EXTRACT MESSAGES AND TARGETS ---------------------
+  targ <- df %>%
+    select(id, targets, metadata) %>%
+    unnest(metadata) %>%
+    select(id, uid, group, targets) %>%
+    unnest(targets) %>%
+    mutate_at(c('rc', 'ch'), as.character) %>% # TO DO: investigate implications of having these as charcter
+    select(
+      id, uid, rc, ch, ct, ep, ep_cp7,
+      baseline_pre, cp8_dEP, cp8_snr, cp8_rmse, cp8_ct,
+      alpha, beta, a, b, c0, result,
+      expected, concordance, group
+    ) %>%
+    mutate(idx = paste0(id, rc, ch))
+
+
+  mess <- df %>%
+    select(id, messages) %>%
+    unnest(messages) %>%
+    filter(rc != "NA") %>%
+    mutate_at(vars(rc, ch), as.character) %>% # TO DO: investigate implications of having these as charcter
+    mutate(idx = paste0(id, rc, ch))
+
+  rm(df) # remove data frame not to slow down execution by overloadinf cache
+
+  # Return list of two data frames: targets and messages.
+  return(list(
+    targets = targ,
+    messages = mess
+  ))
+}

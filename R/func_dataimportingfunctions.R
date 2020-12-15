@@ -158,6 +158,11 @@ rawdataImporter_fromcsv <- function(testID) {
 #' @return data, Data frame containing selected info (depends on input values)
 #'
 
+
+
+# Core functions --------------------------------------------------------------
+
+
 func_dataImporter <- function(testID, fromIn2Data = FALSE, typeofdata = "raw") {
 
   if (fromIn2Data) {

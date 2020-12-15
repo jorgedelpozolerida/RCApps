@@ -27,38 +27,40 @@ server <- function(input, output) {
   
   # ----------------------- DATA SELECTION -------------------------------------
   
+  # Get selection data list, containing reactive values inside
+  selected_chambers <- mod_chamberSelectorServer("chambers1", showxtalk=TRUE)
+  
   # Get TestID reactive
-  current_testID <- mod_cartridgeSelectorServer("testID_1")$testID # cartridge selector Server
+  current_testID_r <- mod_cartridgeSelectorServer("testID_1")$testID 
   # Load raw data data frame into reactive
-  rawdata <- reactive({
-    func_dataImporter(current_testID(), fromIn2Data = FALSE, typeofdata = "raw")
+  rawdata_r <- reactive({
+    func_dataImporter(current_testID_r(), fromIn2Data = FALSE, typeofdata = "raw")
   })
   # Load metadata data frame into reactive
-  metadata <- reactive({
-    func_dataImporter(current_testID(), fromIn2Data = TRUE, typeofdata = "metadata")
+  metadata_r <- reactive({
+    func_dataImporter(current_testID_r(), fromIn2Data = TRUE, typeofdata = "metadata")
   })
   # Load analyte data dataframe into reactive
-  analytedata <- reactive({
-    func_dataImporter(current_testID(), fromIn2Data = TRUE, typeofdata = "analyte")
+  analytedata_r <- reactive({
+    func_dataImporter(current_testID_r(), fromIn2Data = TRUE, typeofdata = "analyte")
   })
   
   # ---------------- DATA USAGE AND PROCESSING ---------------------------------
   
-  # Get selection data list, containing reactive values inside
-  selected_chambers <- mod_chamberSelectorServer("chambers1", showxtalk=TRUE)
-  # For troubleshooting displayed text
-  output$text <- renderText({ # selected_chambers$allplots()
-    #selected_chambers$CH_xtalk()
-  })
   # Amplification plot Server part inputting raw data and selection data
-  mod_amplificationPlotterServer("plot1", rawdata, selected_chambers, current_testID())
+  mod_amplificationPlotterServer("plot1", rawdata_r, selected_chambers, current_testID_r())
   
   
   # ---------------------- OUTPUTS ---------------------------------------------
   
+  # For troubleshooting displayed text
+  output$text <- renderText({ # selected_chambers$allplots()
+    #selected_chambers$CH_xtalk()
+  })
+  
   output$rawdata <- DT::renderDataTable({
     DT::datatable({
-      rawdata()
+      rawdata_r()
     })
   })
 }

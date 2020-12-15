@@ -57,7 +57,7 @@ ui <- fluidPage(
         tabPanel(
           "Scatter & SNR plots",
           # mod_regressionplotter()
-          
+          mod_regressionscatterplotterUI('exclusion1')
         )
       )
     )

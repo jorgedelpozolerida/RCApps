@@ -182,16 +182,16 @@ mod_chamberSelectorServer <- function(id,
       return(
         # return a list containing 4 reactive elements 
         list(
-          CH_xtalk = reactive({
+          CH_xtalk_r = reactive({
             input$CH_xtalk #reactive character vector
           }),
-          CH = reactive({
+          CH_r = reactive({
             input$CH #reactive character vector
           }),
-          RC = reactive({
+          RC_r = reactive({
             input$RC #reactive character vector
           }),
-          faceting = reactive({
+          faceting_r = reactive({
             input$faceting #reactive boolean/logical
           })
         )

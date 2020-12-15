@@ -1,59 +1,25 @@
-# AMPLIFICATION PLOTTER MODULE
-
+## ---------------------------
+##
+## Script name: AMPLIFICATION PLOTTER MODULE
+##
+## Purpose of script:
+##
+## Author: jorgedelpozolerida
+##
+## Date Created: 2020-12-14
+##
+## Email: jorge.delpozo@qiagen.com / jorgedelpozolerida@gmail.com
+##
+## ---------------------------
+##
+## Notes:
+##   
+##
+## ---------------------------
+##
 #' TO DO:
-#' Currently only raw data thought, maybe changes if not raw data
-#' Multicartridge
-#'
-
-
-# Necessary functions --------------------------------------------------------------
-
-
-#' Return ggplot for given data
-#'
-#' @param data Data frame containing RC|Cycle|S0:S5|qPCRTemp|
-#' @param title
-#' @param xlabel
-#' @param ylabel
-#' @param caption
-#' @param faceting Logical value that controls whether to apply faceting or not
-#'
-#' @noRd
-
-amplification_plotter <- function(data, title, xlabel, ylabel, current_testID,
-                                  caption = "", faceting = FALSE) {
-  plotout <- data %>%
-    mutate(RC = paste0("RC", as.character(RC))) %>%
-    ggplot(aes(x = Cycle, y = Fluorescence)) +
-    geom_point(size = 0.5) +
-    labs(title = title, x = xlabel, y = ylabel, caption = caption) +
-    theme(
-      plot.title = element_text(hjust = 0.5, size = 16),
-      panel.background = element_rect(
-        fill = "#d8e7ed", colour = "#ffffff",
-        size = 2, linetype = "solid"
-      )
-    )
-
-  if (faceting) {
-    plotout <- plotout + facet_grid(Sensor ~ RC, scales = "free")
-
-    if (length(current_testID > 1)) {
-      plotout <- plotout + geom_line(aes(color = testID), size = 1)
-    }
-  } else {
-    if (length(current_testID > 1)) {
-      plotout <- plotout +
-        geom_line(aes(color = ID_RC_Sensor), size = 1) # variable ID_RC_Sensor created in server
-    } else {
-      plotout <- plotout +
-        geom_line(aes(color = RC_Sensor), size = 1) # variable RC_Sensor created in server
-    }
-  }
-
-  return(plotout)
-}
-
+#' 
+#' 
 
 
 # User Interface --------------------------------------------------------------
@@ -67,9 +33,11 @@ amplification_plotter <- function(data, title, xlabel, ylabel, current_testID,
 
 
 mod_amplificationPlotterUI <- function(id) {
+  
   ns <- NS(id)
+  
   tagList(
-    plotOutput(ns("plot1"), height = "875px") #  TODO: use plotlyoutput
+    plotOutput(ns("plot1"), height = "875px") 
   )
 }
 
@@ -93,44 +61,46 @@ mod_amplificationPlotterUI <- function(id) {
 #'   
 #'
 
-mod_amplificationPlotterServer <- function(id, data, selected_chambers, current_testID) {
+mod_amplificationPlotterServer <- function(id, data_r, selected_chambers_r, current_testID) {
   moduleServer(
     id,
     function(input, output, session) {
       
-      # Process data conveniently
-      datap <- reactive({
-        data() %>% # data is passed as reactive and must be extracted
+      # ---------------------- DATA PROCESSING ---------------------------------
+      datap_r <- reactive({
+        data_r() %>% # data is passed as reactive and must be extracted
           mutate(RC = as.character(RC)) %>%
           gather(
             key = Sensor, # make data tidy
             value = Fluorescence,
             -RC, -Cycle, -qPCRTemp, -testID
           ) %>%
-          filter(RC %in% selected_chambers$RC(), Sensor %in% selected_chambers$CH()) %>%
+          filter(RC %in% selected_chambers_r$RC_r(), Sensor %in% selected_chambers_r$CH_r()) %>%
           unite("RC_Sensor", c(RC, Sensor), remove = FALSE) %>% #useful for plot labels
           mutate(RC_Sensor = paste0("RC", RC_Sensor) ) %>% 
           unite("ID_RC_Sensor", c(testID, RC_Sensor), remove = FALSE) 
           
       })
       
-      # Create ggplot reactive object using amplification_plotter internal function
-      plot1_obj <- reactive({
-        plot1 <- datap() %>%
-          amplification_plotter(
+      # ----------------------  PLOT CREATION ----------------------------------
+      
+      plot1_obj_r <- reactive({
+        plot1 <- datap_r() %>%
+          func_amplificationplot(
             title = paste0(
-              "Amplification plot for RC ", paste0(selected_chambers$RC(), collapse = ", "),
-              ", Sensor ", paste0((selected_chambers$CH()), collapse = ", ")
+              "Amplification plot for RC ", paste0(selected_chambers_r$RC_r(), collapse = ", "),
+              ", Sensor ", paste0((selected_chambers_r$CH_r()), collapse = ", ")
             ),
             xlabel = "Cycle number", ylabel = "Fluorescence level",
             current_testID = current_testID,
-            faceting = selected_chambers$faceting() #controlled by this boolean variable
+            faceting = selected_chambers_r$faceting_r() #controlled by this boolean variable
           )
         return(plot1)
       })
-
+      # --------------------------  OUTPUTS ------------------------------------
+      
       output$plot1 <- renderPlot({
-        plot1_obj()
+        plot1_obj_r()
       })
     }
   )

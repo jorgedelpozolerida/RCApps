@@ -13,32 +13,35 @@
 ## ---------------------------
 ##
 ## Notes:
-##   
+##
 ##
 ## ---------------------------
 ##
 #' TO DO:
 #'
-#'
+#' Reactivity, where to put and where not to
 
 
 
 
 mod_regressiondataimporterUI <- function(id) {
-  
   ns <- NS(id)
-  
+
   tagList(
     fluidRow(
-      fileInput(label = 'Select Dataset',
-                inputId = ns('input_dataset'),
-                accept = c('.zip'),
-                multiple = FALSE),
-      fileInput(label = 'Select configuration file',
-                inputId = ns('input_config'),
-                accept = '.xml')
+      fileInput(
+        label = "Select Dataset",
+        inputId = ns("input_dataset"),
+        accept = c(".zip"),
+        multiple = FALSE
+      ),
+      fileInput(
+        label = "Select configuration file",
+        inputId = ns("input_config"),
+        accept = ".xml"
+      )
     )
-    )
+  )
 }
 
 
@@ -47,27 +50,32 @@ mod_regressiondataimporterServer <- function(id) {
     id,
     function(input, output, session) {
       
+      
       # Load regression datazip and return list with messages and targets
-      zipdata <- reactive ({
-        func_dataextractorfromzipfile(input$input_dataset)
+      zipdata_r <- reactive({
+        if (is.null(input$input_dataset)) {
+          return(NULL)
+        } else {
+          func_dataextractorfromzipfile(input$input_dataset$datapath)
+        }
       })
-        
-      messages <-zipdata()$messages 
-        
-      targets <-zipdata()$targets 
-        
-      
-      # Load config file data
-      cfg_path <- reactive ({ input$input_config })
-      conf_xml <- func_dataextractorfromconfigfile(cfg_path()$datapath)
 
-      
-      
+      # Load config file data
+      conf_xml_r <- reactive({
+        func_dataextractorfromconfigfile(input$input_config$datapath)
+      })
+
+
       return(list(
-        targets =  reactive ({ targets }),
-        messages = reactive ({ messages}),
-        conf = reactive ({ conf_xml})
-      )) 
+        targets_r = reactive({
+          zipdata_r()$targets
+        }),
+        messages_r = reactive({
+          zipdata_r()$messages
+        }),
+        conf_r = conf_xml_r
+        
+      ))
     }
   )
 }
