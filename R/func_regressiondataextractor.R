@@ -120,12 +120,12 @@ func_dataextractorfromconfigfile <- function(configfilepath) {
   configurationdata
 }
 
-func_dataextractorfromzipfile <- function(datasetpath) {
+func_dataextractorfromzipfile <- function(datasetpath, filename = "df.RDS") {
 
 
   # ------------------------- LOAD ZIP FILE AND READ ---------------------------
   
-  con <- unz(datasetpath, filename = "df.RDS") # reads(only) single file within zip in binary mode
+  con <- unz(datasetpath, filename = filename) # reads(only) single file within zip in binary mode
   con2 <- gzcon(con) # wraps the existing connection "con", and decompresses reads through "con"
   df <- readRDS(con2)
   close(con2)

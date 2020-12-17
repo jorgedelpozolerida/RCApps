@@ -20,6 +20,7 @@
 #' TO DO:
 #'
 #' Control only selecting one combination of Rc and CH
+#' Save sleected cartridge on plot or sidebar along all tabs?
 
 
 
@@ -33,7 +34,7 @@ server <- function(input, output) {
   messages_r <- reactive ({ regression_data$messages_r()  })
   targets_r <-regression_data$targets_r
   conf_xml_r <- regression_data$conf_r
-
+  zipdatapath_r <- regression_data$zipdatapath_r
   
   # ---------------------------- DATA SELECTION --------------------------------
   
@@ -59,7 +60,8 @@ server <- function(input, output) {
   # ----------------------- DATA USAGE AND PROCESSING --------------------------
   
   mod_regressionscatterplotterServer('exclusion1', conf_xml_r, targets_r, 
-                                     messages_r, selectedchambersforscatter_r)
+                                     messages_r, selectedchambersforscatter_r, 
+                                     zipdatapath_r)
 
   # --------------------------------- OUTPUTS ----------------------------------
   

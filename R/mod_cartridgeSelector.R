@@ -75,7 +75,7 @@ mod_cartridgeSelectorUI <- function(id,
       ),
       column(
         4,
-        checkboxInput(ns("multi"), "Multicartridge"),
+        checkboxInput(ns("multi"), "Import cartridge list"),
         
       )
     )
@@ -98,8 +98,6 @@ mod_cartridgeSelectorServer <- function(id, fromcsv=TRUE, choicelist_r=NULL) {
   moduleServer(
     id,
     function(input, output, session) {
-      print(paste0('inside cartridge selector: \n ', getwd()))
-      print(csvlist_path)
       # Get csv list to display options in UI
       cartridge_list <- read.csv(file.path(csvlist_path),
         header = TRUE,

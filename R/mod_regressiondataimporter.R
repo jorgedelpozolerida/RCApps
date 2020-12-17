@@ -73,7 +73,8 @@ mod_regressiondataimporterServer <- function(id) {
         messages_r = reactive({
           zipdata_r()$messages
         }),
-        conf_r = conf_xml_r
+        conf_r = conf_xml_r,
+        zipdatapath_r = reactive({input$input_dataset$datapath})
         
       ))
     }
