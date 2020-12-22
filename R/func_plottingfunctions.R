@@ -28,7 +28,8 @@
 #' Too slow scatter plot..solve
 #' Select data once for both plots and unify functions
 #' S0 instead of 0 for CH values...IMPORTANT TO SOLVE!
-
+#' Pass data already filtered to functions regression andscatter and snr
+#' Remove plot data snrdata f.e. after it has beeen fed to plot not to overload 
 
 # Helper functions ----------------------------------------------------------
 
@@ -120,7 +121,10 @@ func_amplificationplot <- function(data, title, xlabel, ylabel, current_testID,
 
 # Exclusion plot / Scatter Plot ------------------------------------------------
 
-func_exclusionplot <- function(conf_xml, targets, RC, CH){
+func_exclusionplot <- function(conf_xml, targets, RC, CH, 
+                               study, TTsymbol, TTcolor, threshold){
+  print(TTcolor)
+  print(TTsymbol)
   
   CH <- gsub(".*?([0-9]+).*", "\\1", CH) #  extract numeric part of string
   tmp <- conf_xml %>% 
@@ -144,7 +148,8 @@ func_exclusionplot <- function(conf_xml, targets, RC, CH){
   # print(paste0(RC, CH,ep_th,ct.threshold.min))
   
   exclusionplotdata <- targets %>% 
-    filter(rc == as.character(RC), ch == as.character(CH)) %>%  # TO DO: group %in% input$study_checkbox, Sample %in% input$sample_checkbox --> not in theia
+    filter(rc == as.character(RC), ch == as.character(CH), 
+           group %in% study) %>%  # TO DO: group %in% input$study_checkbox, Sample %in% input$sample_checkbox --> not in theia
     select(id, uid, rc, ch, idx, cp8_ct, cp8_dEP, cp8_snr, group, 
              concordance, result)
   plot_ly(
@@ -175,8 +180,8 @@ func_exclusionplot <- function(conf_xml, targets, RC, CH){
               showlegend = TRUE) %>%
     add_markers(x = ~cp8_ct,
                 y = ~cp8_dEP,
-                color = ~as.factor(concordance), # TO DO: allow select grouping factor --> coordinate with snr plot
-                symbol = ~as.factor(group), # TO DO: allow select grouping factor --> coordinate with snr plot
+                color = ~as.factor(get(TTcolor)), # TO DO: allow select grouping factor --> coordinate with snr plot
+                symbol = ~as.factor(get(TTsymbol)), # TO DO: allow select grouping factor --> coordinate with snr plot
                 key = ~idx,
                 text = ~paste0('<b>ID:</b> ', id, '<br></br>',
                                '<b>UID:</b> ', uid, '<br></br>',
@@ -190,8 +195,8 @@ func_exclusionplot <- function(conf_xml, targets, RC, CH){
     layout(xaxis = list(title = 'Ct (cycles)'),
            yaxis = list(title = 'dEP (A.U.)')) %>%
     layout(shapes = list(vline(ct_treshold),
-                         vline(ct.threshold.min))) %>% 
-                         # hline(input$th))) %>% # To DO: add hline for threshold user selected
+                         vline(ct.threshold.min),
+                         hline(threshold))) %>% # To DO: add hline for threshold user selected
     layout(xaxis = list(showgrid = TRUE,
                         gridcolor = toRGB("grey10", alpha = 0.2)),
            yaxis = list(showgrid = TRUE,
@@ -203,12 +208,13 @@ func_exclusionplot <- function(conf_xml, targets, RC, CH){
 
 # SNR plot ---------------------------------------------------------------------
 
-func_snrplot <- function(targ, RC, CH) {
+func_snrplot <- function(targ, RC, CH,
+                         study, TTsymbol, TTcolor, threshold) {
   CH <- gsub(".*?([0-9]+).*", "\\1", CH) #  extract numeric part of string
   #print(paste0(RC,'__',CH))
   snrdata <- targ %>% 
     mutate(rc = as.character(rc), ch = as.character(ch)) %>% # TO DO: filter by group and sampel study:group %in% input$study_checkbox 
-    filter(rc == RC, ch == CH)
+    filter(rc == RC, ch == CH, group %in% study)
   # For some reason not possible to do on single pipe... TO DO: fix this
   snrplot<- plot_ly(
       data=snrdata
@@ -217,8 +223,8 @@ func_snrplot <- function(targ, RC, CH) {
       x = ~ cp8_snr,
       y = ~ cp8_dEP,
       # colors = c("coral", "blueviolet", "limegreen"),
-      color = ~ as.factor(concordance), # TO DO: allow select grouping factor
-      symbol = ~ as.factor(group), # TO DO: allow select grouping factor
+      color = ~ as.factor(get(TTcolor)), # TO DO: allow select grouping factor
+      symbol = ~ as.factor(get(TTsymbol)), # TO DO: allow select grouping factor
       key = ~idx,
       text = ~paste0('<b>ID:</b> ', id, '<br></br>',
                      '<b>UID:</b> ', uid, '<br></br>',

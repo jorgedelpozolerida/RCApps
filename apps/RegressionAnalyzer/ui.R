@@ -36,7 +36,9 @@ ui <- fluidPage(
     sidebarPanel(
       mod_regressiondataimporterUI("regressiondata1"),
       conditionalPanel(condition = "input.tabs == 'Scatter & SNR plots'",
-        mod_chamberSelectorUI('chambers1')
+        mod_chamberSelectorUI('chambers1'),
+        mod_regressionplotfilterUI("scatterparameters1")
+        
         
       ),
       conditionalPanel(condition = "input.tabs == 'Raw Data Visualization'",
@@ -76,6 +78,7 @@ ui <- fluidPage(
           "Scatter & SNR plots",
           # mod_regressionplotter()
           mod_regressionscatterplotterUI('exclusion1')
+          
         )
       )
     )

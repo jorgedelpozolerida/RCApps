@@ -43,6 +43,7 @@ library(shinyjs)
 library(shinydashboard)
 library(DT)
 library(shinyWidgets)
+library(htmlwidgets)
 library(ggpubr) #TO DO: check exact functions
 library(stringr)
 options(shiny.maxRequestSize=3000*1024^2) # increase shiny maximum upload size

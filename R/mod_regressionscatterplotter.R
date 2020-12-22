@@ -40,9 +40,13 @@ mod_regressionscatterplotterUI <- function(id) {
 
 # Server -----------------------------------------------------------------------
 
-mod_regressionscatterplotterServer <- function(id, conf_xml_r, targets_r, 
-                                               messages_r, selected_chambers_r,
-                                               zipdatapath_r) {
+mod_regressionscatterplotterServer <- function(id, 
+                                               conf_xml_r, 
+                                               targets_r, 
+                                               messages_r, 
+                                               selected_chambers_r,
+                                               zipdatapath_r, 
+                                               selectedparams) {
   moduleServer(
     id,
     function(input, output, session) {
@@ -50,7 +54,8 @@ mod_regressionscatterplotterServer <- function(id, conf_xml_r, targets_r,
 
       # ---------------------- DATA PROCESSING ---------------------------------
 
-      rc_ch_r <- reactive({
+      # Ensure reactivity trigger by grouping all 
+      params_r <- reactive({
         RC_r <- selected_chambers_r$RC_r
         CH_r <- selected_chambers_r$CH_r #passed as "S"+"integer"
         # Check length 1 for each
@@ -59,17 +64,41 @@ mod_regressionscatterplotterServer <- function(id, conf_xml_r, targets_r,
           \n If that is the case,
          please wait for data to load... \n If error persists please contact owner of app")
         )
-        return(list(RC_r=RC_r,CH_r=CH_r))
+        study_r = selectedparams$study_r
+        TTsymbol_r = selectedparams$TTsymbol_r
+        TTcolor_r = selectedparams$TTcolor_r
+        threshold_r = selectedparams$threshold_r
+        return(list(
+          RC_r = RC_r,
+          CH_r = CH_r, 
+          study_r = study_r,
+          TTsymbol_r = TTsymbol_r,
+          TTcolor_r = TTcolor_r,
+          threshold_r = threshold_r
+          ))
       })
-      # Get selected RC and Ch for filtering data within modules
+      
 
       # ----------------------  PLOTs CREATION ---------------------------------
       
       scatterplot_r <- reactive({
-        func_exclusionplot(conf_xml_r(), targets_r(), rc_ch_r()$RC_r(), rc_ch_r()$CH_r())
+        func_exclusionplot(conf_xml_r(),
+                           targets_r(),
+                           params_r()$RC_r(), 
+                           params_r()$CH_r(),
+                           params_r()$study_r(), 
+                           params_r()$TTsymbol_r(),  
+                           params_r()$TTcolor_r(),
+                           params_r()$threshold_r())
       })
       snrplot_r <- reactive({
-        func_snrplot(targets_r(), rc_ch_r()$RC_r(), rc_ch_r()$CH_r())
+        func_snrplot(targets_r(),
+                     params_r()$RC_r(),
+                     params_r()$CH_r(), 
+                     params_r()$study_r(),
+                     params_r()$TTsymbol_r(),  
+                     params_r()$TTcolor_r(),
+                     params_r()$threshold_r())
         
       })
       amplificationplot <- reactive({
@@ -85,14 +114,6 @@ mod_regressionscatterplotterServer <- function(id, conf_xml_r, targets_r,
                 shareY = FALSE) %>%
           layout(plot_bgcolor = 'transparent') %>%
           layout(paper_bgcolor = 'transparent')
-          # subplot(scatterplot_r(), SNR_plot(), titleX = TRUE, titleY = TRUE) %>%
-          #   layout(plot_bgcolor = 'transparent') %>%
-          #   layout(paper_bgcolor = 'transparent') 
-          
-        
-          # plotly_empty()%>%
-          #   layout(plot_bgcolor = 'transparent') %>%
-          #   layout(paper_bgcolor = 'transparent')
           
       })
       

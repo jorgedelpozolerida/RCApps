@@ -32,21 +32,27 @@ server <- function(input, output) {
   regression_data <- mod_regressiondataimporterServer("regressiondata1") 
   # Get reactive elements from list  
   messages_r <- reactive ({ regression_data$messages_r()  })
-  targets_r <-regression_data$targets_r
+  targets_r <- regression_data$targets_r
   conf_xml_r <- regression_data$conf_r
   zipdatapath_r <- regression_data$zipdatapath_r
   
   # ---------------------------- DATA SELECTION --------------------------------
   
-  selectedchambersforscatter_r <- mod_chamberSelectorServer("chambers1", showxtalk=FALSE, 
-                                                showfaceting=FALSE)
+  selectedchambersforscatter_r <- mod_chamberSelectorServer("chambers1", 
+                                                            showxtalk=FALSE, 
+                                                            showfaceting=FALSE)
+  selectedparametersforscatter <- mod_regressionplotfilterServer("scatterparameters1",
+                                                                   targets_r)
 
-  choicelist_r <- reactive ({
+  cartridgechoicelist_r <- reactive ({
     unique(messages_r()$id)
   })
+  
+  
+  
   current_testID_r <- mod_cartridgeSelectorServer('selectedtest1', 
                                                   fromcsv = FALSE,
-                                                  choicelist = choicelist_r )$testID
+                                                  choicelist = cartridgechoicelist_r )$testID
   selecteddatafordisplay_r <- reactive ({
     selected <- regression_data[[as.character(input$dataset)]]()
     if (input$dataset != 'conf_r' & !is.null(current_testID_r())){
@@ -61,12 +67,12 @@ server <- function(input, output) {
   
   mod_regressionscatterplotterServer('exclusion1', conf_xml_r, targets_r, 
                                      messages_r, selectedchambersforscatter_r, 
-                                     zipdatapath_r)
+                                     zipdatapath_r, selectedparametersforscatter)
 
   # --------------------------------- OUTPUTS ----------------------------------
   
   output$text <- renderText({
-    input$dataset
+    selectedparametersforscatter$TTcolor()
   })
   
   mod_regressiondataexplorerServer('displayedregressiondata1', 
