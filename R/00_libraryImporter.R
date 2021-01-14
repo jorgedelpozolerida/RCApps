@@ -41,6 +41,7 @@ library(plotly)
 # complementary shiny packages
 library(shinyjs)
 library(shinydashboard)
+library(shinythemes)
 library(DT)
 library(shinyWidgets)
 library(htmlwidgets)
