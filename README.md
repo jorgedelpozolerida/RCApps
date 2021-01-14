@@ -1,2 +1,2 @@
-# RCApps
-Repository containing environment for deployment of several shiny apps from a shiny server.
+# Simple_qPCRAnalyzer
+Simplified version of qPCR analyzer written in modular way
