@@ -1,2 +1,2 @@
-# Simple_qPCRAnalyzer
-Simplified version of qPCR analyzer written in modular way
+# RCApps
+Environment for creating shiny apps in a modular way for the RCA team
