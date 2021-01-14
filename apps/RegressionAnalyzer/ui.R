@@ -23,6 +23,8 @@
 
 
 ui <- fluidPage(
+  
+  #Use shiny themes selector
   shinythemes::themeSelector(),
   
   # Enable shinyjs
