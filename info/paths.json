@@ -1,8 +1,8 @@
 {   
-    "project_dir": "C:/Users/jdelpozo/Documents/Proyectos/RCApps/RCApps/",
+    "project_dir": "/home/shinyuser/RCApps/",
     "testIDlist_file": "/info/testID_list.csv",
     "testCSV_dir": "/data/CSV_input/",
     "Simple_qPCRAnalyzer": "/apps/Simple_qPCRAnalyzer/",
-    "RegressionAnalyzer": "/apps/RegressionAnalyzer/"
-    
+    "RegressionAnalyzer": "/apps/RegressionAnalyzer/",
+    "rmarkdownsdir": "/home/shinyuser/RCA_rmarkdowns"
 }

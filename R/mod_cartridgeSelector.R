@@ -35,8 +35,8 @@
 # Necessary variables ----------------------------------------------------------
 
 csvlist_path <- file.path(
-  read_json("./info/paths.json")$project_dir,
-  read_json("./info/paths.json")$testIDlist_file # path to folder with csv
+  read_json("../../info/paths.json")$project_dir,
+  read_json("../../info/paths.json")$testIDlist_file # path to folder with csv
 )
 
 # User Interface ---------------------------------------------------------------

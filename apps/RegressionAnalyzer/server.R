@@ -23,6 +23,10 @@
 #' Save sleected cartridge on plot or sidebar along all tabs?
 
 
+sapply(list.files("../../R", full.names = TRUE), source)
+
+
+
 
 server <- function(input, output) {
   
@@ -85,6 +89,9 @@ server <- function(input, output) {
     })
   })
   
+  # output$text <- renderText({
+  #   getwd()
+  # })
 
 
   

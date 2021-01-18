@@ -22,6 +22,11 @@
 #'
 
 
+sapply(list.files("../../R", full.names = TRUE), source)
+
+
+
+
 server <- function(input, output) {
   
   

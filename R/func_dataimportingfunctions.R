@@ -19,8 +19,8 @@
 # Necessary variables --------------------------------------------------------------
 
 csvfiles_dir <- file.path(
-  read_json("./info/paths.json")$project_dir,
-  read_json("./info/paths.json")$testCSV_dir # path to folder with csv
+  read_json("../../info/paths.json")$project_dir,
+  read_json("../../info/paths.json")$testCSV_dir # path to folder with csv
 )
 
 

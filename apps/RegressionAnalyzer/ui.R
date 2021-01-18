@@ -21,9 +21,12 @@
 #'
 #'
 
+sapply(list.files("../../R", full.names = TRUE), source)
+
+
 
 ui <- fluidPage(
-  
+  shinythemes::themeSelector(),
   # Enable shinyjs
   useShinyjs(),
   
@@ -59,7 +62,7 @@ ui <- fluidPage(
                        
                        #show controls here
       ),
-      textOutput("text"), # used for troubleshooting
+      # textOutput("text"), # used for troubleshooting
       width = 2
     ),
     # Panel

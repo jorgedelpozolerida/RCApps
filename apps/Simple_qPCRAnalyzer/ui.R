@@ -20,9 +20,14 @@
 #' TO DO:
 #'
 #'
+#'
+
+sapply(list.files("../../R", full.names = TRUE), source)
+
+
 
 ui <- fluidPage(
-  
+  shinythemes::themeSelector(),
   # Initialize shinyjs
   shinyjs::useShinyjs(),
   
