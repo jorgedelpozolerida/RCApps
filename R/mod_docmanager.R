@@ -110,7 +110,7 @@ mod_docmanagerServer <- function(id, path_to_regressiondata="/var/RCAdata/regres
                                       recursive = TRUE)) 
         })
       
-      observeEvent(input$addfile, {
+      # observeEvent(input$addfile, {
         # validate(
         #   need(input$panel, paste0(input$panel, " cannot be empty!")),
         #   need(input$author, paste0(input$author, " cannot be empty!")),
@@ -120,12 +120,12 @@ mod_docmanagerServer <- function(id, path_to_regressiondata="/var/RCAdata/regres
         #   need(input$comments, paste0(input$comments, " cannot be empty!")),
         #   need(input$addfile, paste0(input$addfile, " cannot be empty!"))
         # )
-        if () {
-
-        } else{
-
-        }
-      })
+        # if () {
+        # 
+        # } else{
+        # 
+        # }
+      # })
       
       
       return()
