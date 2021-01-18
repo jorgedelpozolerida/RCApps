@@ -77,7 +77,7 @@ ui <- fluidPage(
           "Raw Data Visualization",
           # mod_regressiondataexplorer("plot1") # amplification plot UI
           # DT::dataTableOutput("regressiondata") # Displayed table
-          mod_regressiondataexplorerUI("displayedregressiondata1")
+          mod_dataframeexplorerUI("displayedregressiondata1")
           
           ),
         tabPanel(

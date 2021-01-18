@@ -4,5 +4,6 @@
     "testCSV_dir": "/data/CSV_input/",
     "Simple_qPCRAnalyzer": "/apps/Simple_qPCRAnalyzer/",
     "RegressionAnalyzer": "/apps/RegressionAnalyzer/",
-    "rmarkdownsdir": "/home/shinyuser/RCA_rmarkdowns"
+    "rmarkdownsdir": "/home/shinyuser/RCA_rmarkdowns",
+    "regressiondata_absolute": "/var/RCAdata/regression"
 }

@@ -75,23 +75,14 @@ server <- function(input, output) {
 
   # --------------------------------- OUTPUTS ----------------------------------
   
-  output$text <- renderText({
-    selectedparametersforscatter$TTcolor()
-  })
+
   
-  mod_regressiondataexplorerServer('displayedregressiondata1', 
+  t<- mod_dataframeexplorerServer('displayedregressiondata1', 
                                    selecteddatafordisplay_r)
   
-  
-  output$regressiondata <- DT::renderDataTable({
-    DT::datatable({
-      targets_r()
-    })
+  output$text <- renderText({
+    t()
   })
-  
-  # output$text <- renderText({
-  #   getwd()
-  # })
 
 
   

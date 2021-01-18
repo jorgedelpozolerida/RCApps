@@ -1,6 +1,5 @@
 # Import of all necessary libraries
 library(shiny)
-library(shinythemes)
 
 
 
@@ -36,18 +35,31 @@ library(RCAutils)
 
 # plotting functions
 library(plotly)
-
+#library(ggplot2)
+library(plotROC)
+library(gganimate) # animated plots
+library(magick) #combine two gif
+library(yardstick) # ROC curve helper
+library(grid)
+library(gridExtra)
 
 # complementary shiny packages
+options(shiny.maxRequestSize=3000*1024^2) # increase shiny maximum upload size
 library(shinyjs)
 library(shinydashboard)
 library(shinythemes)
+library(dashboardthemes)
 library(DT)
 library(shinyWidgets)
 library(htmlwidgets)
+
+# others
+library(kableExtra)
+library(scales)
+library(knitr)
+library(rlang)
+library(purrr)
+library(janitor)
+library(withr)
 library(ggpubr) #TO DO: check exact functions
 library(stringr)
-options(shiny.maxRequestSize=3000*1024^2) # increase shiny maximum upload size
-
-# Others
-library(withr)
