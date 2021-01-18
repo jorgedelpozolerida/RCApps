@@ -27,7 +27,10 @@ sapply(list.files("../../R", full.names = TRUE), source)
 
 
 ui <- fluidPage(
+
+  #Use shiny themes selector
   shinythemes::themeSelector(),
+  
   # Initialize shinyjs
   shinyjs::useShinyjs(),
   
