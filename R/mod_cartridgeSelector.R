@@ -108,7 +108,7 @@ mod_cartridgeSelectorServer <- function(id, fromcsv=TRUE, choicelist_r=NULL) {
         updateSelectInput(session,
           "selected_cartridge",
           choices = if (fromcsv) cartridge_list$testID else choicelist_r(),
-          selected = if (fromcsv) cartridge_list$testID[1] else NULL),
+          selected = if (fromcsv) cartridge_list$testID[1] else NULL)
           # server:	whether to store choices
         # on the server side, and load the select
         # options dynamically on searching, instead

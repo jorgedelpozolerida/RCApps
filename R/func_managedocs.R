@@ -24,7 +24,7 @@
 
 # Function to get list of Markdowns and its info
 
-func_gethtmldocssummary <- function(pathtohtmls, 
+func_gethtmldocssummary <- function(pathtohtmls="/home/shinyuser/RCA_rmarkdowns/data/htmlfiles", 
                                     url_to_html = "http://10.156.1.64/RCA_html/") {
   
   dataout <- data.frame(jsonpath=list.files(pathtohtmls, 
@@ -53,11 +53,70 @@ func_gethtmldocssummary <- function(pathtohtmls,
 
   n_html <- int(nrow(dataout))
   n_authors <- nrow(unique(select(dataout, AUTHOR)))
-  
+  id_list <- dataout$ID
+    
   return(list(
     data = dataout,
     n_html = n_html,
-    n_authors = n_authors
+    n_authors = n_authors,
+    id_list=id_list
   )
   )
 }
+
+
+
+
+func_generatehtmlrelatedfiles <- function(panel, author, type, datasetpath, 
+                                          datasetname, comments, uploaded_html,
+                                          pathtohtmls="/home/shinyuser/RCA_rmarkdowns/data/htmlfiles"){
+  
+    
+    # ------------------------- GENERATE ID AND FILENAME -----------------------
+    
+    id_list <- data.frame(id = func_gethtmldocssummary()$id_list) %>%
+      mutate(id = as.numeric(id)) %>%
+      arrange(desc(id))
+    new_id <- as.character(id_list$id[1] + 1) # new id
+    
+    
+    # Create new name for file folder, json file and html file. Also create dir.
+    file_name <- paste0(c(
+      new_id,
+      panel,
+      type,
+      author
+    ),
+    collapse = "_"
+    )
+    newdir_name <- file.path(pathtohtmls, file_name)
+    dir.create(newdir_name)
+    
+    # ------------------------------- GENERATE FILES ---------------------------
+    
+    # Create list with data for json file --> json file --> write to file
+    jsonlist <- list(
+      filename = file_name,
+      id = new_id,
+      author = author,
+      date = Sys.Date(),
+      type = type,
+      panel = panel,
+      datasetpath = datasetpath,
+      datasetname = datasetname,
+      comments = comments
+    ) %>% 
+      # purrr::flatten() %>% # flatten
+      # jsonlite::toJSON(pretty = TRUE, auto_unbox = TRUE) %>% #convert to json file
+      jsonlite::write_json(file.path(newdir_name, paste0(file_name, ".json"))) # save list directly better
+    
+    # Read uploaded html and write to new dir with new name
+    htmlfile <- xml2::read_html(uploaded_html$datapath) %>%
+      xml2::write_html(file.path(newdir_name, paste0(file_name, ".html")))
+    
+    return(file_name)
+    
+}
+
+
+
