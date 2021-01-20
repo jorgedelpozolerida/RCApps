@@ -8,9 +8,9 @@
     
     "RCApps_project": "/home/shinyuser/RCApps/",
     "RCA_rmarkdowns_project": "/home/shinyuser/RCA_rmarkdowns",
-    "htmlfiles_absolute": "/home/shinyuser/RCA_rmarkdowns/data/htmlfiles",
+    "RCA_htmls_absolute": "/home/shinyuser/RCA_htmls",
     "rocregressiondataframes_absolute": "/data/data_roccurves/dfs",
-    "regressiondata_absolute": "/var/RCAdata/regression"
-
+    "regressiondata_absolute": "/var/RCAdata/regression",
+    "RCA_htmls_url": "http://10.156.1.64/RCA_htmls_development/"
     
 }

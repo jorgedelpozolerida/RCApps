@@ -116,7 +116,8 @@ mod_docmanagerUI <- function(id) {
 # Server -----------------------------------------------------------------------
 
 mod_docmanagerServer <- function(id, path_to_regressiondata = "/var/RCAdata/regression",
-                                 pathtohtmls = "/home/shinyuser/RCA_rmarkdowns/data/htmlfiles") {
+                                 RCA_htmls_path = "/home/shinyuser/RCA_htmls",
+                                 RCA_htmls_url = "http://10.156.1.64/RCA_htmls_development/") {
   moduleServer(
     id,
     function(input, output, session) {
@@ -152,7 +153,8 @@ mod_docmanagerServer <- function(id, path_to_regressiondata = "/var/RCAdata/regr
           # Generate all related files and get name
           file_name <- func_generatehtmlrelatedfiles(input$panel, input$author, input$type, input$datasetpath,
             input$datasetname, input$comments, input$uploaded_html,
-            pathtohtmls = pathtohtmls
+            RCA_htmls_path = RCA_htmls_path,
+            RCA_htmls_url = RCA_htmls_url
           )
 
 

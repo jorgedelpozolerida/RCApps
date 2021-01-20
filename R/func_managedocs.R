@@ -24,15 +24,15 @@
 
 # Function to get list of Markdowns and its info
 
-func_gethtmldocssummary <- function(pathtohtmls = "/home/shinyuser/RCA_rmarkdowns/data/htmlfiles",
-                                    url_to_html = "http://10.156.1.64/RCA_html/") {
+func_gethtmldocssummary <- function(RCA_htmls_path = "/home/shinyuser/RCA_htmls",
+                                    RCA_htmls_url = "http://10.156.1.64/RCA_htmls_development/") {
   dataout <- data.frame(
-    jsonpath = list.files(pathtohtmls,
+    jsonpath = list.files(RCA_htmls_path,
       full.names = TRUE,
       recursive = TRUE,
       pattern = ".json$"
     ),
-    htmlpath = list.files(pathtohtmls,
+    htmlpath = list.files(RCA_htmls_path,
       full.names = TRUE,
       recursive = TRUE,
       pattern = ".html$"
@@ -49,7 +49,7 @@ func_gethtmldocssummary <- function(pathtohtmls = "/home/shinyuser/RCA_rmarkdown
     mutate(date = as.Date(date)) %>% # captured with Sys.Date() so
     mutate_at(c("author", "date", "type"), as.factor) %>%
     mutate(url = paste0(
-      url_to_html,
+      RCA_htmls_url,
       as.character(filename), "/", as.character(filename), ".html"
     )) %>%
     mutate(filename = paste0("<a href='", url, "'>", filename, "</a>")) %>%
@@ -74,7 +74,7 @@ func_gethtmldocssummary <- function(pathtohtmls = "/home/shinyuser/RCA_rmarkdown
 
 func_generatehtmlrelatedfiles <- function(panel, author, type, datasetpath,
                                           datasetname, comments, uploaded_html,
-                                          pathtohtmls = "/home/shinyuser/RCA_rmarkdowns/data/htmlfiles") {
+                                          RCA_htmls_path = "/home/shinyuser/RCA_rmarkdowns/data/htmlfiles") {
 
 
   # ------------------------- GENERATE ID AND FILENAME -----------------------
@@ -94,7 +94,7 @@ func_generatehtmlrelatedfiles <- function(panel, author, type, datasetpath,
   ),
   collapse = "_"
   )
-  newdir_name <- file.path(pathtohtmls, file_name)
+  newdir_name <- file.path(RCA_htmls_path, file_name)
   dir.create(newdir_name)
 
   # ------------------------------- GENERATE FILES ---------------------------

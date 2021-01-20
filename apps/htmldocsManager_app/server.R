@@ -28,10 +28,18 @@ pathsjson_dir <- file.path("/home/shinyuser/RCApps/info/paths.json")
 
 project_dir <- jsonlite::read_json(pathsjson_dir)$RCApps_project
 
-pathtohtmls <- file.path(
-  jsonlite::read_json(pathsjson_dir)$htmlfiles_absolute
+RCA_htmls_path <- file.path(
+  jsonlite::read_json(pathsjson_dir)$RCA_htmls_absolute
 )
 
+path_to_regressiondata <- file.path(
+  jsonlite::read_json(pathsjson_dir)$rocregressiondataframes_absolute
+)
+  
+RCA_htmls_url <- file.path(
+  jsonlite::read_json(pathsjson_dir)$RCA_htmls_url
+)
+  
 pathtoRfiles <- file.path(
   jsonlite::read_json(pathsjson_dir)$RCApps_project,
   "/R"
@@ -48,7 +56,7 @@ server <- function(input, output) {
   histdata <- rnorm(500)
 
   summarydata_r <- reactive({
-    func_gethtmldocssummary(pathtohtmls)
+    func_gethtmldocssummary(RCA_htmls_path)
   })
   htmldataframe_r <- reactive({
     summarydata_r()$data
@@ -63,7 +71,7 @@ server <- function(input, output) {
   
   output$infotable <- DT::renderDT(
     {
-      data.frame(PATH=pathtohtmls, row.names=c("HTMLs"))
+      data.frame(PATH=RCA_htmls_path, row.names=c("HTMLs"))
     },
  
   )
@@ -94,7 +102,10 @@ server <- function(input, output) {
   
   # --------------------- OUTPUT ADD FILE TAB ---------------------------------
   
-  mod_docmanagerServer("addfile")
+  mod_docmanagerServer("addfile",
+                       path_to_regressiondata = path_to_regressiondata,
+                       RCA_htmls_path = RCA_htmls_path,
+                       RCA_htmls_url = RCA_htmls_url)
   
   
 
