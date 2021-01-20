@@ -139,17 +139,21 @@ mod_docmanagerServer <- function(id, path_to_regressiondata = "/var/RCAdata/regr
       })
 
       # ----------------------- MANUAL PROCESSING ------------------------------
-      
+
       observeEvent(input$addfile, {
-        
-        if (all(nzchar(c(input$panel, input$author, input$type, input$datasetpath, 
-                         input$datasetname, input$comments)), 
-                !is.null(input$uploaded_html))) {
-          
+        if (all(
+          nzchar(c(
+            input$panel, input$author, input$type, input$datasetpath,
+            input$datasetname, input$comments
+          )),
+          !is.null(input$uploaded_html)
+        )) {
+
           # Generate all related files and get name
-          file_name <- func_generatehtmlrelatedfiles(input$panel, input$author, input$type, input$datasetpath, 
-                                        input$datasetname, input$comments, input$uploaded_html,
-                                        pathtohtmls=pathtohtmls)
+          file_name <- func_generatehtmlrelatedfiles(input$panel, input$author, input$type, input$datasetpath,
+            input$datasetname, input$comments, input$uploaded_html,
+            pathtohtmls = pathtohtmls
+          )
 
 
           # If succesfull, show message
@@ -165,16 +169,16 @@ mod_docmanagerServer <- function(id, path_to_regressiondata = "/var/RCAdata/regr
       })
 
       # -------------------- AUTOMATIC GENERATION ------------------------------
-      
+
       # When button "generatefile" is clicked, this happens
       observe(
         updateSelectInput(session,
-                          "datasetname",
-                          choices = unique(dataset_info_r()$filename),
-                          selected = NULL
+          "datasetname",
+          choices = unique(dataset_info_r()$filename),
+          selected = NULL
         )
       )
-      
+
       return()
     }
   )
