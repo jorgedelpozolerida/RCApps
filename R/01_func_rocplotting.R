@@ -43,7 +43,8 @@ hline <- function(y = 0, color = "red") {
 
 # Function to generate all ROC related plots
 
-func_makerocplots <- function(data, rcch = "4_0", roccutoffs = NULL, th_value = TRUE) {
+func_generaterocplots <- function(data, rcch = "4_0", roccutoffs = NULL, th_value = TRUE,
+                              prefix='a') {
 
   # ------------------------- DATA FILTERING -----------------------------------
 
@@ -66,35 +67,50 @@ func_makerocplots <- function(data, rcch = "4_0", roccutoffs = NULL, th_value = 
 
 
   # ROC curve
+  # Do this only when at least two observations...otherwise error
+  if (nrow(filtereddata)>1){
+    
+    roc_plot <- data.frame(
+      D = filtereddata$Dsubs, D.str = filtereddata$reference_subs,
+      M1 = filtereddata$cp8_dEP, stringsAsFactors = FALSE
+    ) %>%
+      ggplot(aes(m = M1, d = D)) +
+      geom_roc(labelround = 1, cutoffs.at = roccutoffs) +
+      style_roc(theme = theme_minimal()) +
+      xlab("1 - Specificity") +
+      ylab("Sensitivity") +
+      scale_y_continuous(
+        breaks = c(0, 0.2, 0.4, 0.6, 0.8, 1),
+        labels = c("0", "0.2", "0.4", "0.6", "0.8", "1"),
+        limits = c(-0.2, 1.2)
+      ) +
+      scale_x_continuous(
+        breaks = c(0, 0.2, 0.4, 0.6, 0.8, 1),
+        labels = c("0", "0.2", "0.4", "0.6", "0.8", "1"),
+        limits = c(-0.2, 1.2)
+      )
 
-  roc_plot <- data.frame(
-    D = filtereddata$Dsubs, D.str = filtereddata$reference_subs,
-    M1 = filtereddata$cp8_dEP, stringsAsFactors = FALSE
-  ) %>%
-    ggplot(aes(m = M1, d = D)) +
-    geom_roc(labelround = 1, cutoffs.at = roccutoffs) +
-    style_roc(theme = theme_minimal()) +
-    xlab("1 - Specificity") +
-    ylab("Sensitivity") +
-    scale_y_continuous(
-      breaks = c(0, 0.2, 0.4, 0.6, 0.8, 1),
-      labels = c("0", "0.2", "0.4", "0.6", "0.8", "1"),
-      limits = c(-0.2, 1.2)
-    ) +
-    scale_x_continuous(
-      breaks = c(0, 0.2, 0.4, 0.6, 0.8, 1),
-      labels = c("0", "0.2", "0.4", "0.6", "0.8", "1"),
-      limits = c(-0.2, 1.2)
-    )
 
-  # ylim(0.8,1) + xlim(0,0.2)
-  auc <- calc_auc(roc_plot)$AUC
-  roc_plot <- roc_plot + annotate("text", x = 0.5, y = 0.5, label = paste0(
-    "AUC: ",
-    round(auc,
-      digits = 3
-    )
-  ))
+      auc <- calc_auc(roc_plot)$AUC 
+      roc_plot <- roc_plot + annotate("text", x = 0.5, y = 0.5, label = paste0(
+        "AUC: ",
+        round(auc,
+              digits = 3
+        )
+      ))
+      # Interactive print for html (if several on a doc they shoudk have different prefix)
+      roc_plot_interactive <- export_interactive_roc(roc_plot,
+                               hide.points = TRUE,
+                               # add.cis = FALSE,
+                               style = NULL,
+                               prefix = prefix)
+  } else {
+    
+    roc_plot <- NULL
+    roc_plot_interactive <- NULL
+    
+  }
+
 
 
   # Scatter plot
@@ -184,7 +200,7 @@ func_makerocplots <- function(data, rcch = "4_0", roccutoffs = NULL, th_value = 
     geom_freqpoly())
 
   # Return
-  list(roccurve = roc_plot, density = density_plot, scatter = scatter_plot, hist = hist_plot, freqp = freqp_plot, th = threshold_value$th_final)
+  list(roccurve = roc_plot, roccurve_interactive=roc_plot_interactive, density = density_plot, scatter = scatter_plot, hist = hist_plot, freqp = freqp_plot, th = threshold_value$th_final)
 }
 
 

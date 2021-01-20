@@ -116,8 +116,12 @@ func_getscores <- function(filtereddata, threshold_logscale, weigths) {
     FP <- nrow(filter(concordancedata, concordance == "FP"))
 
     # Calculate True Positive Fraction and False Negative Fraction for each
-    dataout$TPF[i] <- TP / (TP + FN)
-    dataout$FPF[i] <- FP / (TN + FP)
+    tpf <-  TP / (TP + FN)
+    fpf <- FP / (TN + FP)
+    # Avoid calculation errors
+    dataout$TPF[i] <- ifelse(is.nan(tpf), 0, tpf)
+    dataout$FPF[i] <- ifelse(is.nan(fpf), 0, fpf)
+    
   }
 
   # return
@@ -162,7 +166,7 @@ func_getstatsthreshold <- function(filtereddata) {
   fsdneg <- negstats$sd / sumsd
 
   threshold <- ((posstats$median) * fsdneg + (negstats$median) * fsdpos) # inversely weigthed average
-
+  
   # Using fluorescence in logarithmic scale: based on median and sd
   sumsd_log <- posstats$log_sd + negstats$log_sd
   fsdpos_log <- posstats$log_sd / sumsd_log
@@ -171,6 +175,13 @@ func_getstatsthreshold <- function(filtereddata) {
   threshold_logscale <- ((posstats$log_median) * fsdneg_log + (negstats$log_median) * fsdpos_log)
   threshold_log <- 10^(threshold_logscale)
 
+  # Return NA if empty
+  threshold <- ifelse(length(threshold) == 0, NA, threshold)
+  threshold_logscale <- ifelse(length(threshold) == 0, NA, threshold_logscale)
+  threshold_log <- ifelse(length(threshold) == 0, NA, threshold_log)
+  
+  
+  
   return(list(
     threshold = threshold,
     threshold_logscale = threshold_logscale,
