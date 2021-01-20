@@ -5,5 +5,12 @@
     "Simple_qPCRAnalyzer": "/apps/Simple_qPCRAnalyzer/",
     "RegressionAnalyzer": "/apps/RegressionAnalyzer/",
     "rmarkdownsdir": "/home/shinyuser/RCA_rmarkdowns",
+    
+    "RCApps_project": "/home/shinyuser/RCApps/",
+    "RCA_rmarkdowns_project": "/home/shinyuser/RCA_rmarkdowns",
+    "htmlfiles_absolute": "/home/shinyuser/RCA_rmarkdowns/data/htmlfiles",
+    "rocregressiondataframes_absolute": "/data/data_roccurves/dfs",
     "regressiondata_absolute": "/var/RCAdata/regression"
+
+    
 }
