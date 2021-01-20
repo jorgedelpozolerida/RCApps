@@ -59,8 +59,17 @@ server <- function(input, output) {
     t()
   })
 
-  mod_docmanagerServer("addfile")
-
+  # --------------------- OUTPUT INFO TAB ---------------------------------
+  
+  output$infotable <- DT::renderDT(
+    {
+      data.frame(PATH=pathtohtmls, row.names=c("HTMLs"))
+    },
+ 
+  )
+  
+  
+  
   # --------------------- OUTPUT INFO BOXES ---------------------------------
 
   output$n_html <- renderInfoBox({
@@ -82,6 +91,12 @@ server <- function(input, output) {
       color = "yellow"
     )
   })
+  
+  # --------------------- OUTPUT ADD FILE TAB ---------------------------------
+  
+  mod_docmanagerServer("addfile")
+  
+  
 
   # --------------------- OUTPUT DROPDOWN MENU---------------------------------
 

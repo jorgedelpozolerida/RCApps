@@ -71,8 +71,9 @@ sidebar <- dashboardSidebar(
   ),
   sidebarMenu(
     id = "idebarmenu",
-    menuItem("Summary", tabName = "dashboard", icon = icon("book")),
-    menuItem("Add file", tabName = "widgets", icon = icon("book-open"))
+    menuItem("Summary", tabName = "summary", icon = icon("binoculars")),
+    menuItem("Info", tabName = "info", icon = icon("book")),
+    menuItem("Add file", tabName = "addfile", icon = icon("plus"))
   )
 )
 
@@ -96,7 +97,7 @@ body <- dashboardBody(
   tabItems(
     # Dashboard tab
     tabItem(
-      tabName = "dashboard",
+      tabName = "summary",
       fillPage(
         fluidRow(
           # Dynamic infoBoxes
@@ -127,11 +128,16 @@ body <- dashboardBody(
         )
       )
     ),
-
-    # Widgets tab
+    
+    # Add file tab
     tabItem(
-      tabName = "widgets",
-
+      tabName = "info",
+      DT::dataTableOutput(outputId = "infotable")
+    ),
+    # Add file tab
+    tabItem(
+      tabName = "addfile",
+      
       mod_docmanagerUI("addfile")
     )
   )
