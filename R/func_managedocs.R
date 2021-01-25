@@ -19,51 +19,54 @@
 #' TO DO:
 #'
 #' Do not realy on locally set variable to get url to html...
+#' Make valid for other docs rather than rmarkdowns and html (func_getdocsummary)
 
 
 
 # Function to get list of Markdowns and its info
 
-func_gethtmldocssummary <- function(RCA_htmls_path = "/home/shinyuser/RCA_htmls",
-                                    RCA_htmls_url = "http://10.156.1.64/RCA_htmls_development/") {
+func_getdocssummary <- function(docs_path = "/home/shinyuser/RCA_htmls",
+                                docs_url = "http://10.156.1.177/RCA_htmls_development/",
+                                docs_extension=".html") {
   dataout <- data.frame(
-    jsonpath = list.files(RCA_htmls_path,
+    jsonpath = list.files(docs_path,
       full.names = TRUE,
       recursive = TRUE,
       pattern = ".json$"
     ),
-    htmlpath = list.files(RCA_htmls_path,
+    docpath = list.files(docs_path,
       full.names = TRUE,
       recursive = TRUE,
-      pattern = ".html$"
+      pattern = paste0(docs_extension, "$")
     )
   ) %>%
     mutate(jsondata = (map(jsonpath, jsonlite::fromJSON,
       simplifyDataFrame = TRUE
     ))) %>%
     mutate(jsondata = map(jsondata, as.data.frame)) %>%
-    unnest(jsondata) %>%
-    relocate(jsonpath, htmlpath, .after = last_col()) %>% # organize column order
+    unnest(jsondata) %>% 
+    relocate(jsonpath, docpath, .after = last_col()) %>% # organize column order
     mutate_at(c("id"), as.integer) %>%
     mutate_at(c("filename"), as.character) %>%
     mutate(date = as.Date(date)) %>% # captured with Sys.Date() so
-    mutate_at(c("author", "date", "type"), as.factor) %>%
+    mutate_at(c("author"), as.factor) %>%
     mutate(url = paste0(
-      RCA_htmls_url,
-      as.character(filename), "/", as.character(filename), ".html"
-    )) %>%
+      docs_url, "/",
+      as.character(filename))) %>% 
+    # If html cerate full path to html, otherwise url goes to Rmarkdown
+    mutate(url=ifelse(docs_extension == ".html", paste0(url, "/", as.character(filename), ".html"), url))%>%
     mutate(filename = paste0("<a href='", url, "'>", filename, "</a>")) %>%
-    select(-jsonpath, -htmlpath, -url) %>%
+    select(-jsonpath, -docpath, -url) %>%
     arrange((date)) %>% # order by date
     rename_with(toupper) # prittier column names
 
-  n_html <- int(nrow(dataout))
+  n_doc <- int(nrow(dataout))
   n_authors <- nrow(unique(select(dataout, AUTHOR)))
   id_list <- dataout$ID
 
   return(list(
     data = dataout,
-    n_html = n_html,
+    n_doc = n_doc,
     n_authors = n_authors,
     id_list = id_list
   ))
@@ -79,7 +82,7 @@ func_generatehtmlrelatedfiles <- function(panel, author, type, datasetpath,
 
   # ------------------------- GENERATE ID AND FILENAME -----------------------
 
-  id_list <- data.frame(id = func_gethtmldocssummary()$id_list) %>%
+  id_list <- data.frame(id = func_getdocssummary()$id_list) %>%
     mutate(id = as.numeric(id)) %>%
     arrange(desc(id))
   new_id <- as.character(id_list$id[1] + 1) # new id

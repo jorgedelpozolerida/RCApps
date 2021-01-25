@@ -12,6 +12,9 @@
     "RCA_htmls_absolute": "/home/shinyuser/RCA_htmls",
     "rocregressiondataframes_absolute": "/data/data_roccurves/dfs",
     "regressiondata_absolute": "/var/RCAdata/regression",
-    "RCA_htmls_shinyserverlocation": "RCA_htmls_development"
+    "RCA_htmls_shinyserverlocation": "/RCA_htmls_development",
+    "RCA_rmarkdowns_shinyserverlocation": "/RCA_rmarkdowns_development",
+    "RCA_htmls_githubrepo": "https://github.com/jorgedelpozolerida/RCA_htmls",
+    "RCA_rmarkdowns_githubrepo": "https://github.com/jorgedelpozolerida/RCA_rmarkdowns"
     
 }

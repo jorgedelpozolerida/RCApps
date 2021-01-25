@@ -46,7 +46,7 @@ sapply(list.files("../../R", full.names = TRUE), source)
 
 
 header <- dashboardHeader(
-  title = "RCA markdowns Explorer",
+  title = "RCAdocs Manager",
   # title = shinyDashboardLogo(
   #   theme = "blue_gradient",
   #   boldText = "RCA",
@@ -71,9 +71,10 @@ sidebar <- dashboardSidebar(
   ),
   sidebarMenu(
     id = "idebarmenu",
-    menuItem("Summary", tabName = "summary", icon = icon("binoculars")),
+    menuItem("Rmarkdowns", tabName = "rmarkdowns", icon = icon("file-code")),
+    menuItem("HTMLs", tabName = "htmls", icon = icon("file")),
     menuItem("Info", tabName = "info", icon = icon("book")),
-    menuItem("Add file", tabName = "addfile", icon = icon("plus"))
+    menuItem("Add html file", tabName = "addfile", icon = icon("plus"))
   )
 )
 
@@ -97,33 +98,38 @@ body <- dashboardBody(
   tabItems(
     # Dashboard tab
     tabItem(
-      tabName = "summary",
+      tabName = "rmarkdowns",
+      fillPage(
+        fluidRow(
+          # Dynamic infoBoxes
+          infoBoxOutput("n_rmarkdown"),
+          infoBoxOutput("n_authors_rmarkdowns"),
+          # infoBoxOutput("approvalBox")
+        ),
+        fluidRow(
+          box(
+            title = "List of Rmarkdown files", status = "primary", # can also be success/warning/info/danger/primary
+            solidHeader = TRUE, collapsible = TRUE, width = NULL,
+            mod_dataframeexplorerUI("rmarkdowndataframe")
+          )
+        )
+      )
+    ),
+    tabItem(
+      tabName = "htmls",
       fillPage(
         fluidRow(
           # Dynamic infoBoxes
           infoBoxOutput("n_html"),
-          infoBoxOutput("n_authors"),
-          infoBoxOutput("approvalBox")
+          infoBoxOutput("n_authors_html"),
+          # infoBoxOutput("approvalBox")
         ),
         fluidRow(
           box(
             title = "List of HTML files", status = "primary", # can also be success/warning/info/danger/primary
             solidHeader = TRUE, collapsible = TRUE, width = NULL,
-            # background = "maroon",
             # module inside
-            mod_dataframeexplorerUI("htmldataframe"),
-
-            # tabBox(
-            #   title = tagList(shiny::icon("gear"), "tabBox"),
-            #   id='tabs',
-            #   side = "right",
-            #   height = "250px",
-            #   selected = "Tab3",
-            #   tabPanel("Tab1", "Tab content 1"),
-            #   tabPanel("Tab2", "Tab content 2"),
-            #   tabPanel("Tab3", "Note that when side=right, the tab order is reversed.")
-            # ),
-            # box(width = 4, actionButton("count", "Increment progress")
+            mod_dataframeexplorerUI("htmldataframe")
           )
         )
       )
@@ -137,7 +143,6 @@ body <- dashboardBody(
     # Add file tab
     tabItem(
       tabName = "addfile",
-      
       mod_docmanagerUI("addfile")
     )
   )

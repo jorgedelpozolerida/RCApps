@@ -24,12 +24,14 @@
 
 # Define necessary variables  and import libraries------------------------------
 
+sapply(list.files("../../R", full.names = TRUE), source)
+
 pathsjson_dir <- file.path("/home/shinyuser/RCApps/info/paths.json")
 
 project_dir <- jsonlite::read_json(pathsjson_dir)$RCApps_project
 
 RCA_htmls_path <- file.path(
-  jsonlite::read_json(pathsjson_dir)$RCA_htmls_shinyserverlocation
+  jsonlite::read_json(pathsjson_dir)$RCA_htmls_absolute
 )
 
 RCA_rmarkdowns_path <- file.path(
@@ -43,67 +45,104 @@ path_to_regressiondata <- file.path(
 RCA_htmls_url <- paste0(
   "http://",
   jsonlite::read_json(pathsjson_dir)$server_IP,
-  jsonlite::read_json(pathsjson_dir)$RCA_htmls_url
-)
-  
-pathtoRfiles <- file.path(
-  jsonlite::read_json(pathsjson_dir)$RCApps_project,
-  "/R"
+  jsonlite::read_json(pathsjson_dir)$RCA_htmls_shinyserverlocation
 )
 
-sapply(list.files(pathtoRfiles, full.names = TRUE), source)
+RCA_rmarkdowns_url <- paste0(
+  "http://",
+  jsonlite::read_json(pathsjson_dir)$server_IP,
+  jsonlite::read_json(pathsjson_dir)$RCA_rmarkdowns_shinyserverlocation
+)
 
 
+RCA_rmarkdowns_githubrepo <-  file.path(
+  jsonlite::read_json(pathsjson_dir)$RCA_rmarkdowns_githubrepo
+)
+
+RCA_htmls_githubrepo <- file.path(
+  jsonlite::read_json(pathsjson_dir)$RCA_htmls_githubrepo
+)
 
 # Server function ------------------------------------------- ------------------
 
 server <- function(input, output) {
-  set.seed(122)
-  histdata <- rnorm(500)
 
-  summarydata_r <- reactive({
-    func_gethtmldocssummary(RCA_htmls_path)
+  # ----------------------------- DATA IMPORTING ------------------------------------
+  
+  # HTMLs
+  htmlsummarydata_r <- reactive({
+    func_getdocssummary(RCA_htmls_path,
+                        RCA_htmls_url,
+                        docs_extension=".html")
   })
-  htmldataframe_r <- reactive({
-    summarydata_r()$data
+  htmldataframe_r <- reactive({ htmlsummarydata_r()$data })
+  
+  mod_dataframeexplorerServer("htmldataframe", htmldataframe_r)
+  
+  
+  # Generate dataframe for rmarkdown docs and explore with module
+  
+  rmarkdownsummarydata_r <- reactive({
+    func_getdocssummary(RCA_rmarkdowns_path,
+                        RCA_rmarkdowns_url,
+                        docs_extension=".Rmd")
   })
-
-  t <- mod_dataframeexplorerServer("htmldataframe", htmldataframe_r)
+  rmarkdowndataframe_r <- reactive({ rmarkdownsummarydata_r()$data })
+  
+  mod_dataframeexplorerServer("rmarkdowndataframe", rmarkdowndataframe_r)
+  
+  
+  # ----------------------------- DEBUGGING ------------------------------------
+  
   output$text <- renderText({
-    t()
+    # t()
   })
+  
 
-  # --------------------- OUTPUT INFO TAB ---------------------------------
+  # -------------------------- OUTPUT INFO TAB ---------------------------------
   
   output$infotable <- DT::renderDT(
     {
-      data.frame(PATH=c(RCA_rmarkdowns_project, RCA_htmls_path),
+      data.frame(SERVER_LOCATION=c(RCA_rmarkdowns_path, RCA_htmls_path), 
+                 GITHUB_REPO=paste0("<a href='", 
+                                    c(RCA_rmarkdowns_githubrepo, RCA_htmls_githubrepo),
+                                    "'>", 
+                                    c(RCA_rmarkdowns_githubrepo, RCA_htmls_githubrepo), 
+                                    "</a>"),
                  row.names=c("Rmarkdowns","HTMLs"))
     },
- 
+    escape = FALSE, # to activate hyperlinks
+    
   )
   
   
   
   # --------------------- OUTPUT INFO BOXES ---------------------------------
 
+  # HTMLs
   output$n_html <- renderInfoBox({
     infoBox("Number of HTML files",
       icon = icon("file", lib = "glyphicon"), color = "purple",
-      value = as.character(summarydata_r()$n_html)
+      value = as.character(htmlsummarydata_r()$n_doc)
     )
   })
-  output$n_authors <- renderInfoBox({
+  output$n_authors_html <- renderInfoBox({
     infoBox("Number of authors",
       icon = icon("user", lib = "glyphicon"), color = "blue",
-      value = as.character(summarydata_r()$n_authors)
+      value = as.character(htmlsummarydata_r()$n_authors)
     )
   })
-  output$approvalBox <- renderInfoBox({
-    infoBox(
-      "Approval", "80%",
-      icon = icon("thumbs-up", lib = "glyphicon"),
-      color = "yellow"
+  # Rmarkdowns
+  output$n_rmarkdown <- renderInfoBox({
+    infoBox("Number of HTML files",
+            icon = icon("file", lib = "glyphicon"), color = "purple",
+            value = as.character(rmarkdownsummarydata_r()$n_doc)
+    )
+  })
+  output$n_authors_n_rmarkdowns <- renderInfoBox({
+    infoBox("Number of authors",
+            icon = icon("user", lib = "glyphicon"), color = "blue",
+            value = as.character(n_rmarkdownssummarydata_r()$n_authors)
     )
   })
   

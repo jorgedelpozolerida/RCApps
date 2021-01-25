@@ -44,13 +44,14 @@ mod_docmanagerUI <- function(id) {
   tagList(
     prettyCheckbox(
       inputId = ns("manual"),
-      value = FALSE,
-      label = "Add manually",
+      value = TRUE,
+      label = "Add file manually",
       thick = TRUE,
       shape = "curve",
       animation = "pulse",
       status = "info",
-      inline = TRUE
+      inline = TRUE,
+      bigger = TRUE
     ),
     # what to show if manual selected
     conditionalPanel(
