@@ -29,14 +29,20 @@ pathsjson_dir <- file.path("/home/shinyuser/RCApps/info/paths.json")
 project_dir <- jsonlite::read_json(pathsjson_dir)$RCApps_project
 
 RCA_htmls_path <- file.path(
-  jsonlite::read_json(pathsjson_dir)$RCA_htmls_absolute
+  jsonlite::read_json(pathsjson_dir)$RCA_htmls_shinyserverlocation
+)
+
+RCA_rmarkdowns_path <- file.path(
+  jsonlite::read_json(pathsjson_dir)$RCA_rmarkdowns_project
 )
 
 path_to_regressiondata <- file.path(
   jsonlite::read_json(pathsjson_dir)$rocregressiondataframes_absolute
 )
   
-RCA_htmls_url <- file.path(
+RCA_htmls_url <- paste0(
+  "http://",
+  jsonlite::read_json(pathsjson_dir)$server_IP,
   jsonlite::read_json(pathsjson_dir)$RCA_htmls_url
 )
   
@@ -71,7 +77,8 @@ server <- function(input, output) {
   
   output$infotable <- DT::renderDT(
     {
-      data.frame(PATH=RCA_htmls_path, row.names=c("HTMLs"))
+      data.frame(PATH=c(RCA_rmarkdowns_project, RCA_htmls_path),
+                 row.names=c("Rmarkdowns","HTMLs"))
     },
  
   )

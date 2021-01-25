@@ -6,11 +6,12 @@
     "RegressionAnalyzer": "/apps/RegressionAnalyzer/",
     "rmarkdownsdir": "/home/shinyuser/RCA_rmarkdowns",
     
+    "server_IP": "10.156.1.177",
     "RCApps_project": "/home/shinyuser/RCApps/",
     "RCA_rmarkdowns_project": "/home/shinyuser/RCA_rmarkdowns",
     "RCA_htmls_absolute": "/home/shinyuser/RCA_htmls",
     "rocregressiondataframes_absolute": "/data/data_roccurves/dfs",
     "regressiondata_absolute": "/var/RCAdata/regression",
-    "RCA_htmls_url": "http://10.156.1.64/RCA_htmls_development/"
+    "RCA_htmls_shinyserverlocation": "RCA_htmls_development"
     
 }
