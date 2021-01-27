@@ -1,0 +1,362 @@
+
+<!-- Gastro configuration 25/11/2020 -->
+<!-- Author: JM&AM -->
+<!-- Configuration Item: rca_gastro2_config_2.0.2.xml -->
+<!-- Remarks: Child of rca_gastro2_config_1.0.1.xml but with targets overhauling -->
+<!-- Remarks: Universal Matrix check: 1 -->
+<!-- Remarks: IS Th: 1000 --> 
+<!-- Remarks: 40 cycles --> 
+<!-- Remarks: IC Mode 2 --> 
+<!-- Remarks: Added virtual analyte index 19 -->
+<!-- Remarks: Added multireading and rescaling -->
+<!-- Remarks: ObNeg set to 2000 --> 
+ 
+<ProcessingModuleConfiguration> 
+    <Amplification>
+        <Targets>			
+		    <Target type="CONTROL" index="1" reactionChamber="1" channel="0"/>
+			<Target type="BASELINE_CONTROL" index="1" reactionChamber="1" channel="5"/>
+            <Target type="ANALYTE" index="3" reactionChamber="2" channel="0"/>
+            <Target type="ANALYTE" index="2" reactionChamber="2" channel="3"/>
+            <Target type="ANALYTE" index="25" reactionChamber="2" channel="4"/>
+            <Target type="BASELINE_CONTROL" index="2" reactionChamber="2" channel="5"/>
+            <Target type="ANALYTE" index="15" reactionChamber="3" channel="0"/>
+            <Target type="ANALYTE" index="22" reactionChamber="3" channel="1"/>
+            <Target type="ANALYTE" index="24" reactionChamber="3" channel="3"/>
+            <Target type="ANALYTE" index="23" reactionChamber="3" channel="4"/>
+            <Target type="BASELINE_CONTROL" index="3" reactionChamber="3" channel="5"/>
+            <Target type="ANALYTE" index="7" reactionChamber="4" channel="0"/>
+			<Target type="ANALYTE" index="14" reactionChamber="4" channel="1"/> <!-- On 25/11/2020 by AM. From 61 to 41 due to change in design-->
+            <Target type="ANALYTE" index="12" reactionChamber="4" channel="3"/>  
+            <Target type="ANALYTE" index="11" reactionChamber="4" channel="4"/>
+            <Target type="BASELINE_CONTROL" index="4" reactionChamber="4" channel="5"/>
+            <Target type="ANALYTE" index="6" reactionChamber="5" channel="0"/>
+            <Target type="ANALYTE" index="16" reactionChamber="5" channel="3"/>
+			<Target type="ANALYTE" index="13" reactionChamber="5" channel="4"/>
+            <Target type="BASELINE_CONTROL" index="5" reactionChamber="5" channel="5"/>
+            <Target type="ANALYTE" index="9" reactionChamber="6" channel="0"/> <!-- On 25/11/2020 by AM. From 63 to 60 due to change in design-->
+            <Target type="ANALYTE" index="18" reactionChamber="6" channel="3"/> <!-- On 25/11/2020 by AM. From 60 to 63 due to change in design-->
+			<Target type="ANALYTE" index="8" reactionChamber="6" channel="4"/>
+            <Target type="BASELINE_CONTROL" index="6" reactionChamber="6" channel="5"/>
+            <Target type="ANALYTE" index="5" reactionChamber="7" channel="0"/>
+            <Target type="ANALYTE" index="10" reactionChamber="7" channel="1"/>
+            <Target type="ANALYTE" index="20" reactionChamber="7" channel="3"/> 
+            <Target type="ANALYTE" index="1" reactionChamber="7" channel="4"/> 
+            <Target type="BASELINE_CONTROL" index="7" reactionChamber="7" channel="5"/>
+			<Target type="ANALYTE" index="4" reactionChamber="8" channel="0"/>
+            <Target type="ANALYTE" index="17" reactionChamber="8" channel="3"/>
+            <Target type="ANALYTE" index="21" reactionChamber="8" channel="4"/>
+            <Target type="BASELINE_CONTROL" index="8" reactionChamber="8" channel="5"/>
+			
+			<Target type="VIRTUAL_ANALYTE" index="19" reactionChamber="1" channel="1"/>
+			
+        </Targets>
+        <AssayParameters>
+            <Parameter name="TRANSFORMATION_PRESCALING" channel="0">2.0</Parameter>
+            <Parameter name="TRANSFORMATION_PRESCALING" channel="3">2.0</Parameter>
+            <Parameter name="TRANSFORMATION_PRESCALING" channel="4">2.0</Parameter>
+            <Parameter name="TRANSFORMATION_POSTSCALING" channel="0">0.5</Parameter>
+            <Parameter name="TRANSFORMATION_POSTSCALING" channel="3">0.5</Parameter>
+            <Parameter name="TRANSFORMATION_POSTSCALING" channel="4">0.5</Parameter>
+			
+			<Parameter name="CROSS_TALK_CORRECTION_FACTORS" reactionChamber="1" channel="4" fluorophore="5">0.5</Parameter>
+			<Parameter name="CROSS_TALK_CORRECTION_FACTORS" reactionChamber="2" channel="4" fluorophore="5">0.5</Parameter> 
+			<Parameter name="CROSS_TALK_CORRECTION_FACTORS" reactionChamber="3" channel="4" fluorophore="5">0.5</Parameter>
+			<Parameter name="CROSS_TALK_CORRECTION_FACTORS" reactionChamber="4" channel="4" fluorophore="5">0.5</Parameter>
+			<Parameter name="CROSS_TALK_CORRECTION_FACTORS" reactionChamber="5" channel="4" fluorophore="5">0.5</Parameter>
+			<Parameter name="CROSS_TALK_CORRECTION_FACTORS" reactionChamber="6" channel="4" fluorophore="5">0.5</Parameter>
+			<Parameter name="CROSS_TALK_CORRECTION_FACTORS" reactionChamber="7" channel="4" fluorophore="5">0.5</Parameter>
+			<Parameter name="CROSS_TALK_CORRECTION_FACTORS" reactionChamber="8" channel="4" fluorophore="5">0.5</Parameter>			
+			            
+			<Parameter name="CROSS_TALK_CORRECTION_FACTORS" reactionChamber="1" channel="2" fluorophore="0">0</Parameter> 
+			<Parameter name="CROSS_TALK_CORRECTION_FACTORS" reactionChamber="1" channel="2" fluorophore="1">0</Parameter>
+			<Parameter name="CROSS_TALK_CORRECTION_FACTORS" reactionChamber="1" channel="2" fluorophore="2">1</Parameter>			
+			<Parameter name="CROSS_TALK_CORRECTION_FACTORS" reactionChamber="1" channel="2" fluorophore="3">0</Parameter> 
+			<Parameter name="CROSS_TALK_CORRECTION_FACTORS" reactionChamber="1" channel="2" fluorophore="4">0</Parameter>
+			<Parameter name="CROSS_TALK_CORRECTION_FACTORS" reactionChamber="1" channel="2" fluorophore="5">0</Parameter> 
+
+			<Parameter name="CROSS_TALK_CORRECTION_FACTORS" reactionChamber="2" channel="2" fluorophore="0">0</Parameter> 
+			<Parameter name="CROSS_TALK_CORRECTION_FACTORS" reactionChamber="2" channel="2" fluorophore="1">0</Parameter>
+			<Parameter name="CROSS_TALK_CORRECTION_FACTORS" reactionChamber="2" channel="2" fluorophore="2">1</Parameter>			
+			<Parameter name="CROSS_TALK_CORRECTION_FACTORS" reactionChamber="2" channel="2" fluorophore="3">0</Parameter> 
+			<Parameter name="CROSS_TALK_CORRECTION_FACTORS" reactionChamber="2" channel="2" fluorophore="4">0</Parameter> 
+			<Parameter name="CROSS_TALK_CORRECTION_FACTORS" reactionChamber="2" channel="2" fluorophore="5">0</Parameter> 
+
+			<Parameter name="CROSS_TALK_CORRECTION_FACTORS" reactionChamber="3" channel="2" fluorophore="0">0</Parameter> 
+			<Parameter name="CROSS_TALK_CORRECTION_FACTORS" reactionChamber="3" channel="2" fluorophore="1">0</Parameter> 
+			<Parameter name="CROSS_TALK_CORRECTION_FACTORS" reactionChamber="3" channel="2" fluorophore="2">1</Parameter>
+			<Parameter name="CROSS_TALK_CORRECTION_FACTORS" reactionChamber="3" channel="2" fluorophore="3">0</Parameter> 
+			<Parameter name="CROSS_TALK_CORRECTION_FACTORS" reactionChamber="3" channel="2" fluorophore="4">0</Parameter> 
+			<Parameter name="CROSS_TALK_CORRECTION_FACTORS" reactionChamber="3" channel="2" fluorophore="5">0</Parameter> 
+
+			<Parameter name="CROSS_TALK_CORRECTION_FACTORS" reactionChamber="4" channel="2" fluorophore="0">0</Parameter> 
+			<Parameter name="CROSS_TALK_CORRECTION_FACTORS" reactionChamber="4" channel="2" fluorophore="1">0</Parameter>
+			<Parameter name="CROSS_TALK_CORRECTION_FACTORS" reactionChamber="4" channel="2" fluorophore="2">1</Parameter>
+			<Parameter name="CROSS_TALK_CORRECTION_FACTORS" reactionChamber="4" channel="2" fluorophore="3">0</Parameter> 
+			<Parameter name="CROSS_TALK_CORRECTION_FACTORS" reactionChamber="4" channel="2" fluorophore="4">0</Parameter> 
+			<Parameter name="CROSS_TALK_CORRECTION_FACTORS" reactionChamber="4" channel="2" fluorophore="5">0</Parameter> 
+
+			<Parameter name="CROSS_TALK_CORRECTION_FACTORS" reactionChamber="5" channel="2" fluorophore="0">0</Parameter> 
+			<Parameter name="CROSS_TALK_CORRECTION_FACTORS" reactionChamber="5" channel="2" fluorophore="1">0</Parameter> 
+			<Parameter name="CROSS_TALK_CORRECTION_FACTORS" reactionChamber="5" channel="2" fluorophore="2">1</Parameter>
+			<Parameter name="CROSS_TALK_CORRECTION_FACTORS" reactionChamber="5" channel="2" fluorophore="3">0</Parameter> 
+			<Parameter name="CROSS_TALK_CORRECTION_FACTORS" reactionChamber="5" channel="2" fluorophore="4">0</Parameter> 
+			<Parameter name="CROSS_TALK_CORRECTION_FACTORS" reactionChamber="5" channel="2" fluorophore="5">0</Parameter> 
+
+			<Parameter name="CROSS_TALK_CORRECTION_FACTORS" reactionChamber="6" channel="2" fluorophore="0">0</Parameter> 
+			<Parameter name="CROSS_TALK_CORRECTION_FACTORS" reactionChamber="6" channel="2" fluorophore="1">0</Parameter>
+			<Parameter name="CROSS_TALK_CORRECTION_FACTORS" reactionChamber="6" channel="2" fluorophore="2">1</Parameter>			
+			<Parameter name="CROSS_TALK_CORRECTION_FACTORS" reactionChamber="6" channel="2" fluorophore="3">0</Parameter> 
+			<Parameter name="CROSS_TALK_CORRECTION_FACTORS" reactionChamber="6" channel="2" fluorophore="4">0</Parameter>
+			<Parameter name="CROSS_TALK_CORRECTION_FACTORS" reactionChamber="6" channel="2" fluorophore="5">0</Parameter> 
+
+			<Parameter name="CROSS_TALK_CORRECTION_FACTORS" reactionChamber="7" channel="2" fluorophore="0">0</Parameter> 
+			<Parameter name="CROSS_TALK_CORRECTION_FACTORS" reactionChamber="7" channel="2" fluorophore="1">0</Parameter> 
+			<Parameter name="CROSS_TALK_CORRECTION_FACTORS" reactionChamber="7" channel="2" fluorophore="2">1</Parameter>
+			<Parameter name="CROSS_TALK_CORRECTION_FACTORS" reactionChamber="7" channel="2" fluorophore="3">0</Parameter> 
+			<Parameter name="CROSS_TALK_CORRECTION_FACTORS" reactionChamber="7" channel="2" fluorophore="4">0</Parameter> 
+			<Parameter name="CROSS_TALK_CORRECTION_FACTORS" reactionChamber="7" channel="2" fluorophore="5">0</Parameter> 
+			
+			<Parameter name="CROSS_TALK_CORRECTION_FACTORS" reactionChamber="8" channel="2" fluorophore="0">0</Parameter> 
+			<Parameter name="CROSS_TALK_CORRECTION_FACTORS" reactionChamber="8" channel="2" fluorophore="1">0</Parameter> 
+			<Parameter name="CROSS_TALK_CORRECTION_FACTORS" reactionChamber="8" channel="2" fluorophore="2">1</Parameter>
+			<Parameter name="CROSS_TALK_CORRECTION_FACTORS" reactionChamber="8" channel="2" fluorophore="3">0</Parameter> 
+			<Parameter name="CROSS_TALK_CORRECTION_FACTORS" reactionChamber="8" channel="2" fluorophore="4">0</Parameter> 
+			<Parameter name="CROSS_TALK_CORRECTION_FACTORS" reactionChamber="8" channel="2" fluorophore="5">0</Parameter>
+
+            <Parameter name="DARK_CURRENT_THRESHOLD">1.1</Parameter>
+			
+            <Parameter name="OBVIOUS_NEGATIVE_MIN_AMPLIFICATION_DELTA_DEFAULT">2000</Parameter>
+            <Parameter name="NORMALIZATION_CHANNEL">5</Parameter>
+			<Parameter name="DOSING_DYE_CHANNEL">5</Parameter>			
+			<Parameter name="DOSING_DYE_CYCLE_INIT">10</Parameter>
+			<Parameter name="DOSING_DYE_NUM_CYCLES">10</Parameter>			
+            <Parameter name="INIT_CYCLES_DEFAULT">5</Parameter>
+            <Parameter name="MIN_BASELINE_CYCLES">6</Parameter>
+            <Parameter name="FLAT_BASELINE_NUM_CYCLES">8</Parameter>
+            <Parameter name="MIN_CYCLES">20</Parameter>
+            <Parameter name="MAX_CYCLES">40</Parameter>
+            <Parameter name="BASELINE_PIVOT_CYCLE">0</Parameter>
+            <Parameter name="MAX_NEG_AMPLIFICATION_DEFAULT">20000</Parameter>
+			<Parameter name="IC_MODE">2</Parameter>
+			
+			<Parameter name="LINEAR_MAX_SLOPE_DEFAULT">2500</Parameter>
+            <Parameter name="NOISECHECKER_THRESHOLD_DEFAULT">20</Parameter>
+            <Parameter name="NOISECHECKER_EP_MAX_DEFAULT">5000</Parameter>
+			
+			<Parameter name="RMSE_MIN_CYCLE">10</Parameter>
+			
+			<!-- On 24/11/2020 by AM. All Cyycle Threshold Min changed from 5.05 to 10.05 according to pre-LoD values --> 
+			
+			<Parameter name="CYCLE_THRESHOLD_MIN" reactionChamber="1" channel="0">10.05</Parameter>
+			<Parameter name="CYCLE_THRESHOLD_MIN" reactionChamber="2" channel="0">10.05</Parameter> 
+            <Parameter name="CYCLE_THRESHOLD_MIN" reactionChamber="2" channel="3">10.05</Parameter> 
+            <Parameter name="CYCLE_THRESHOLD_MIN" reactionChamber="2" channel="4">10.05</Parameter>  
+            <Parameter name="CYCLE_THRESHOLD_MIN" reactionChamber="3" channel="0">10.05</Parameter>  
+            <Parameter name="CYCLE_THRESHOLD_MIN" reactionChamber="3" channel="1">10.05</Parameter>  
+            <Parameter name="CYCLE_THRESHOLD_MIN" reactionChamber="3" channel="3">10.05</Parameter>  
+            <Parameter name="CYCLE_THRESHOLD_MIN" reactionChamber="3" channel="4">10.05</Parameter>  
+            <Parameter name="CYCLE_THRESHOLD_MIN" reactionChamber="4" channel="0">10.05</Parameter>
+			<Parameter name="CYCLE_THRESHOLD_MIN" reactionChamber="4" channel="1">10.05</Parameter> <!-- On 25/11/2020 by AM. From 61 to 41 due to change in design-->		
+            <Parameter name="CYCLE_THRESHOLD_MIN" reactionChamber="4" channel="3">10.05</Parameter>  
+            <Parameter name="CYCLE_THRESHOLD_MIN" reactionChamber="4" channel="4">10.05</Parameter>  
+            <Parameter name="CYCLE_THRESHOLD_MIN" reactionChamber="5" channel="0">10.05</Parameter>  
+            <Parameter name="CYCLE_THRESHOLD_MIN" reactionChamber="5" channel="3">10.05</Parameter>  
+			<Parameter name="CYCLE_THRESHOLD_MIN" reactionChamber="5" channel="4">10.05</Parameter>  
+            <Parameter name="CYCLE_THRESHOLD_MIN" reactionChamber="6" channel="0">10.05</Parameter> <!-- On 25/11/2020 by AM. From 63 to 60 due to change in design-->
+            <Parameter name="CYCLE_THRESHOLD_MIN" reactionChamber="6" channel="3">10.05</Parameter> <!-- On 25/11/2020 by AM. From 60 to 63 due to change in design-->  
+			<Parameter name="CYCLE_THRESHOLD_MIN" reactionChamber="6" channel="4">10.05</Parameter> 
+            <Parameter name="CYCLE_THRESHOLD_MIN" reactionChamber="7" channel="0">10.05</Parameter>  
+            <Parameter name="CYCLE_THRESHOLD_MIN" reactionChamber="7" channel="1">10.05</Parameter> 
+            <Parameter name="CYCLE_THRESHOLD_MIN" reactionChamber="7" channel="3">10.05</Parameter>  
+            <Parameter name="CYCLE_THRESHOLD_MIN" reactionChamber="7" channel="4">10.05</Parameter>  
+			<Parameter name="CYCLE_THRESHOLD_MIN" reactionChamber="8" channel="0">10.05</Parameter>  
+            <Parameter name="CYCLE_THRESHOLD_MIN" reactionChamber="8" channel="3">10.05</Parameter>  
+            <Parameter name="CYCLE_THRESHOLD_MIN" reactionChamber="8" channel="4">10.05</Parameter>
+			
+			<Parameter name="CYCLE_THRESHOLD_MAX" reactionChamber="1" channel="0">38.51</Parameter>
+			<Parameter name="CYCLE_THRESHOLD_MAX" reactionChamber="2" channel="0">38.51</Parameter> 
+            <Parameter name="CYCLE_THRESHOLD_MAX" reactionChamber="2" channel="3">38.51</Parameter> 
+            <Parameter name="CYCLE_THRESHOLD_MAX" reactionChamber="2" channel="4">38.51</Parameter>  
+            <Parameter name="CYCLE_THRESHOLD_MAX" reactionChamber="3" channel="0">38.51</Parameter>  
+            <Parameter name="CYCLE_THRESHOLD_MAX" reactionChamber="3" channel="1">38.51</Parameter>  
+            <Parameter name="CYCLE_THRESHOLD_MAX" reactionChamber="3" channel="3">38.51</Parameter>  
+            <Parameter name="CYCLE_THRESHOLD_MAX" reactionChamber="3" channel="4">38.51</Parameter>  
+            <Parameter name="CYCLE_THRESHOLD_MAX" reactionChamber="4" channel="0">38.51</Parameter>
+            <Parameter name="CYCLE_THRESHOLD_MAX" reactionChamber="4" channel="1">38.51</Parameter> <!-- On 25/11/2020 by AM. From 61 to 41 due to change in design-->			
+            <Parameter name="CYCLE_THRESHOLD_MAX" reactionChamber="4" channel="3">38.51</Parameter>  
+            <Parameter name="CYCLE_THRESHOLD_MAX" reactionChamber="4" channel="4">38.51</Parameter>  
+            <Parameter name="CYCLE_THRESHOLD_MAX" reactionChamber="5" channel="0">38.51</Parameter>  
+            <Parameter name="CYCLE_THRESHOLD_MAX" reactionChamber="5" channel="3">38.51</Parameter>  
+			<Parameter name="CYCLE_THRESHOLD_MAX" reactionChamber="5" channel="4">38.51</Parameter>  
+            <Parameter name="CYCLE_THRESHOLD_MAX" reactionChamber="6" channel="0">38.51</Parameter> <!-- On 25/11/2020 by AM. From 63 to 60 due to change in design--> 
+            <Parameter name="CYCLE_THRESHOLD_MAX" reactionChamber="6" channel="3">38.51</Parameter> <!-- On 25/11/2020 by AM. From 60 to 63 due to change in design-->  
+			<Parameter name="CYCLE_THRESHOLD_MAX" reactionChamber="6" channel="4">38.51</Parameter> 
+            <Parameter name="CYCLE_THRESHOLD_MAX" reactionChamber="7" channel="0">38.51</Parameter>  
+            <Parameter name="CYCLE_THRESHOLD_MAX" reactionChamber="7" channel="1">38.51</Parameter> 
+            <Parameter name="CYCLE_THRESHOLD_MAX" reactionChamber="7" channel="3">38.51</Parameter>  
+            <Parameter name="CYCLE_THRESHOLD_MAX" reactionChamber="7" channel="4">38.51</Parameter>  
+			<Parameter name="CYCLE_THRESHOLD_MAX" reactionChamber="8" channel="0">38.51</Parameter>  
+            <Parameter name="CYCLE_THRESHOLD_MAX" reactionChamber="8" channel="3">38.51</Parameter>  
+            <Parameter name="CYCLE_THRESHOLD_MAX" reactionChamber="8" channel="4">38.51</Parameter>
+			
+			<Parameter name="FINAL_MIN_AMPLIFICATION_DELTA" reactionChamber="1" channel="0">5001</Parameter>
+			<Parameter name="FINAL_MIN_AMPLIFICATION_DELTA" reactionChamber="2" channel="0">5001</Parameter> 
+            <Parameter name="FINAL_MIN_AMPLIFICATION_DELTA" reactionChamber="2" channel="3">4001</Parameter> <!-- On 24/11/2020 by AM. Change from 5001 to 4001 according to pre-LoD values -->
+            <Parameter name="FINAL_MIN_AMPLIFICATION_DELTA" reactionChamber="2" channel="4">4001</Parameter> <!-- On 24/11/2020 by AM. Change from 5001 to 4001 according to pre-LoD values -->
+            <Parameter name="FINAL_MIN_AMPLIFICATION_DELTA" reactionChamber="3" channel="0">10001</Parameter>  <!-- On 24/11/2020 by AM. Change from 5001 to 10001 according to pre-LoD values --> 
+            <Parameter name="FINAL_MIN_AMPLIFICATION_DELTA" reactionChamber="3" channel="1">5001</Parameter>  
+            <Parameter name="FINAL_MIN_AMPLIFICATION_DELTA" reactionChamber="3" channel="3">5001</Parameter>  
+            <Parameter name="FINAL_MIN_AMPLIFICATION_DELTA" reactionChamber="3" channel="4">10001</Parameter>  <!-- On 24/11/2020 by AM. Change from 5001 to 10001 according to pre-LoD values -->
+            <Parameter name="FINAL_MIN_AMPLIFICATION_DELTA" reactionChamber="4" channel="0">5001</Parameter>
+            <Parameter name="FINAL_MIN_AMPLIFICATION_DELTA" reactionChamber="4" channel="1">5001</Parameter> <!-- On 25/11/2020 by AM. From 61 to 41 due to change in design-->		
+            <Parameter name="FINAL_MIN_AMPLIFICATION_DELTA" reactionChamber="4" channel="3">5001</Parameter>  
+            <Parameter name="FINAL_MIN_AMPLIFICATION_DELTA" reactionChamber="4" channel="4">5001</Parameter>  
+            <Parameter name="FINAL_MIN_AMPLIFICATION_DELTA" reactionChamber="5" channel="0">7501</Parameter>  <!-- On 24/11/2020 by AM. Change from 5001 to 7501 according to pre-LoD values -->
+            <Parameter name="FINAL_MIN_AMPLIFICATION_DELTA" reactionChamber="5" channel="3">5001</Parameter>  
+			<Parameter name="FINAL_MIN_AMPLIFICATION_DELTA" reactionChamber="5" channel="4">5001</Parameter>  
+            <Parameter name="FINAL_MIN_AMPLIFICATION_DELTA" reactionChamber="6" channel="0">5001</Parameter> <!-- On 25/11/2020 by AM. From 63 to 60 due to change in design-->
+            <Parameter name="FINAL_MIN_AMPLIFICATION_DELTA" reactionChamber="6" channel="3">5001</Parameter> <!-- On 25/11/2020 by AM. From 60 to 63 due to change in design-->  
+			<Parameter name="FINAL_MIN_AMPLIFICATION_DELTA" reactionChamber="6" channel="4">10001</Parameter> <!-- On 24/11/2020 by AM. Change from 5001 to 10001 according to pre-LoD values -->
+            <Parameter name="FINAL_MIN_AMPLIFICATION_DELTA" reactionChamber="7" channel="0">5001</Parameter>  
+            <Parameter name="FINAL_MIN_AMPLIFICATION_DELTA" reactionChamber="7" channel="1">5001</Parameter> 
+            <Parameter name="FINAL_MIN_AMPLIFICATION_DELTA" reactionChamber="7" channel="3">5001</Parameter>  
+            <Parameter name="FINAL_MIN_AMPLIFICATION_DELTA" reactionChamber="7" channel="4">5001</Parameter>  
+			<Parameter name="FINAL_MIN_AMPLIFICATION_DELTA" reactionChamber="8" channel="0">5001</Parameter>  
+            <Parameter name="FINAL_MIN_AMPLIFICATION_DELTA" reactionChamber="8" channel="3">5001</Parameter>  
+            <Parameter name="FINAL_MIN_AMPLIFICATION_DELTA" reactionChamber="8" channel="4">5001</Parameter>
+			
+            <Parameter name="DARK_CURRENT_CHECK_CHANNELS">0,1,3,4,5</Parameter>
+            <Parameter name="DARK_CURRENT_CHECK_CHAMBERS">1,2,3,4,5,6,7,8</Parameter>
+
+			<Parameter name="ALLOW_RAWDATA_IS_COMPENSATION">0</Parameter>
+			
+            <Parameter name="IS_CURRENT_THRESHOLD">1000</Parameter>
+			
+			<Parameter name="ABN_AMPLIFICATION_DELTA" reactionChamber="1" channel="0">20000</Parameter>
+			<Parameter name="CYCLE_THRESHOLD_ABN_LOW" reactionChamber="1" channel="0">30</Parameter> 
+			<Parameter name="CYCLE_THRESHOLD_ABN_HIGH" reactionChamber="1" channel="0">35</Parameter>
+			
+			<Parameter name="ABN_AMPLIFICATION_DELTA" reactionChamber="2" channel="0">20000</Parameter>
+			<Parameter name="CYCLE_THRESHOLD_ABN_LOW" reactionChamber="2" channel="0">27</Parameter> <!-- On 24/11/2020 by AM. Change from 30 to 27 according to pre-LoD values -->
+			<Parameter name="CYCLE_THRESHOLD_ABN_HIGH" reactionChamber="2" channel="0">32</Parameter> <!-- On 24/11/2020 by AM. Change from 35 to 32 according to pre-LoD values -->
+			<Parameter name="ABN_AMPLIFICATION_DELTA" reactionChamber="2" channel="3">7500</Parameter> <!-- On 24/11/2020 by AM. Change from 20000 to 7500 according to pre-LoD values -->
+			<Parameter name="CYCLE_THRESHOLD_ABN_LOW" reactionChamber="2" channel="3">26</Parameter> <!-- On 24/11/2020 by AM. Change from 30 to 26 according to pre-LoD values -->
+			<Parameter name="CYCLE_THRESHOLD_ABN_HIGH" reactionChamber="2" channel="3">31</Parameter> <!-- On 24/11/2020 by AM. Change from 35 to 31 according to pre-LoD values -->
+			<Parameter name="ABN_AMPLIFICATION_DELTA" reactionChamber="2" channel="4">40000</Parameter> <!-- On 24/11/2020 by AM. Change from 20000 to 40000 according to pre-LoD values -->
+			<Parameter name="CYCLE_THRESHOLD_ABN_LOW" reactionChamber="2" channel="4">25</Parameter> <!-- On 24/11/2020 by AM. Change from 30 to 25 according to pre-LoD values -->				  
+			<Parameter name="CYCLE_THRESHOLD_ABN_HIGH" reactionChamber="2" channel="4">29</Parameter> <!-- On 24/11/2020 by AM. Change from 25 to 29 according to pre-LoD values -->
+			
+			<Parameter name="ABN_AMPLIFICATION_DELTA" reactionChamber="3" channel="0">40000</Parameter> <!-- On 24/11/2020 by AM. Change from 20000 to 40000 according to pre-LoD values -->
+			<Parameter name="CYCLE_THRESHOLD_ABN_LOW" reactionChamber="3" channel="0">32</Parameter>  <!-- On 24/11/2020 by AM. Change from 30 to 32 according to pre-LoD values -->
+			<Parameter name="CYCLE_THRESHOLD_ABN_HIGH" reactionChamber="3" channel="0">37</Parameter> <!-- On 24/11/2020 by AM. Change from 35 to 37 according to pre-LoD values -->
+			<Parameter name="ABN_AMPLIFICATION_DELTA" reactionChamber="3" channel="1">50000</Parameter> <!-- On 24/11/2020 by AM. Change from 10000 to 50000 according to pre-LoD values -->
+			<Parameter name="CYCLE_THRESHOLD_ABN_LOW" reactionChamber="3" channel="1">30</Parameter> 
+			<Parameter name="CYCLE_THRESHOLD_ABN_HIGH" reactionChamber="3" channel="1">35</Parameter>
+			<Parameter name="ABN_AMPLIFICATION_DELTA" reactionChamber="3" channel="3">40000</Parameter> <!-- On 24/11/2020 by AM. Change from 20000 to 40000 according to pre-LoD values -->
+			<Parameter name="CYCLE_THRESHOLD_ABN_LOW" reactionChamber="3" channel="3">30</Parameter>
+			<Parameter name="CYCLE_THRESHOLD_ABN_HIGH" reactionChamber="3" channel="3">35</Parameter>
+			<Parameter name="ABN_AMPLIFICATION_DELTA" reactionChamber="3" channel="4">50000</Parameter> <!-- On 24/11/2020 by AM. Change from 20000 to 50000 according to pre-LoD values -->
+			<Parameter name="CYCLE_THRESHOLD_ABN_LOW" reactionChamber="3" channel="4">30</Parameter>
+			<Parameter name="CYCLE_THRESHOLD_ABN_HIGH" reactionChamber="3" channel="4">35</Parameter>
+			
+			<Parameter name="ABN_AMPLIFICATION_DELTA" reactionChamber="4" channel="0">20000</Parameter>
+			<Parameter name="CYCLE_THRESHOLD_ABN_LOW" reactionChamber="4" channel="0">27</Parameter> <!-- On 24/11/2020 by AM. Change from 30 to 27 according to pre-LoD values -->
+			<Parameter name="CYCLE_THRESHOLD_ABN_HIGH" reactionChamber="4" channel="0">32</Parameter> <!-- On 24/11/2020 by AM. Change from 35 to 32 according to pre-LoD values -->
+			<Parameter name="ABN_AMPLIFICATION_DELTA" reactionChamber="4" channel="1">40000</Parameter> <!-- On 24/11/2020 by AM. Change from 20000 to 40000 according to pre-LoD values. & On 25/11/2020 by AM. From 61 to 41 due to change in design-->
+			<Parameter name="CYCLE_THRESHOLD_ABN_LOW" reactionChamber="4" channel="1">27.5</Parameter> <!-- On 24/11/2020 by AM. Change from 30 to 27.5 according to pre-LoD values. & On 25/11/2020 by AM. From 61 to 41 due to change in design-->
+			<Parameter name="CYCLE_THRESHOLD_ABN_HIGH" reactionChamber="4" channel="1">32.5</Parameter> <!-- On 24/11/2020 by AM. Change from 35 to 32.5 according to pre-LoD values. & On 25/11/2020 by AM.From 61 to 41 due to change in design-->
+			<Parameter name="ABN_AMPLIFICATION_DELTA" reactionChamber="4" channel="3">20000</Parameter>
+			<Parameter name="CYCLE_THRESHOLD_ABN_LOW" reactionChamber="4" channel="3">26</Parameter> <!-- On 24/11/2020 by AM. Change from 30 to 26 according to pre-LoD values -->
+			<Parameter name="CYCLE_THRESHOLD_ABN_HIGH" reactionChamber="4" channel="3">31</Parameter> <!-- On 24/11/2020 by AM. Change from 35 to 31 according to pre-LoD values -->
+			<Parameter name="ABN_AMPLIFICATION_DELTA" reactionChamber="4" channel="4">50000</Parameter> <!-- On 24/11/2020 by AM. Change from 25000 to 50000 according to pre-LoD values -->
+			<Parameter name="CYCLE_THRESHOLD_ABN_LOW" reactionChamber="4" channel="4">26</Parameter> <!-- On 24/11/2020 by AM. Change from 30 to 26 according to pre-LoD values -->
+			<Parameter name="CYCLE_THRESHOLD_ABN_HIGH" reactionChamber="4" channel="4">31</Parameter> <!-- On 24/11/2020 by AM. Change from 35 to 31 according to pre-LoD values -->
+			
+			<Parameter name="ABN_AMPLIFICATION_DELTA" reactionChamber="5" channel="0">20000</Parameter>
+			<Parameter name="CYCLE_THRESHOLD_ABN_LOW" reactionChamber="5" channel="0">29</Parameter> <!-- On 24/11/2020 by AM. Change from 30 to 29 according to pre-LoD values -->
+			<Parameter name="CYCLE_THRESHOLD_ABN_HIGH" reactionChamber="5" channel="0">34</Parameter> <!-- On 24/11/2020 by AM. Change from 35 to 34 according to pre-LoD values -->
+			<Parameter name="ABN_AMPLIFICATION_DELTA" reactionChamber="5" channel="3">40000</Parameter> <!-- On 24/11/2020 by AM. Change from 20000 to 40000 according to pre-LoD values -->
+			<Parameter name="CYCLE_THRESHOLD_ABN_LOW" reactionChamber="5" channel="3">28</Parameter> <!-- On 24/11/2020 by AM. Change from 30 to 28 according to pre-LoD values -->
+			<Parameter name="CYCLE_THRESHOLD_ABN_HIGH" reactionChamber="5" channel="3">33</Parameter> <!-- On 24/11/2020 by AM. Change from 35 to 33 according to pre-LoD values -->
+			<Parameter name="ABN_AMPLIFICATION_DELTA" reactionChamber="5" channel="4">50000</Parameter>
+			<Parameter name="CYCLE_THRESHOLD_ABN_LOW" reactionChamber="5" channel="4">28</Parameter> <!-- On 24/11/2020 by AM. Change from 30 to 28 according to pre-LoD values -->	
+			<Parameter name="CYCLE_THRESHOLD_ABN_HIGH" reactionChamber="5" channel="4">33</Parameter> <!-- On 24/11/2020 by AM. Change from 35 to 23 according to pre-LoD values -->	
+			
+			<Parameter name="ABN_AMPLIFICATION_DELTA" reactionChamber="6" channel="0">20000</Parameter> <!-- On 25/11/2020 by AM. From 63 to 60 due to change in design-->
+			<Parameter name="CYCLE_THRESHOLD_ABN_LOW" reactionChamber="6" channel="0">29</Parameter> <!-- On 24/11/2020 by AM. From 30 to 29 according to pre-LoD values. & On 25/11/2020 by AM. From 63 to 60 due to change in design-->
+			<Parameter name="CYCLE_THRESHOLD_ABN_HIGH" reactionChamber="6" channel="0">34</Parameter> <!-- On 24/11/2020 by AM. From 35 to 34 according to pre-LoD values. & On 25/11/2020 by AM. From 63 to 60 due to change in design-->
+			<Parameter name="ABN_AMPLIFICATION_DELTA" reactionChamber="6" channel="3">20000</Parameter> <!-- On 25/11/2020 by AM. From 60 to 63 due to change in design-->
+			<Parameter name="CYCLE_THRESHOLD_ABN_LOW" reactionChamber="6" channel="3">29</Parameter> <!-- On 24/11/2020 by AM. From 30 to 29 according to pre-LoD values. & On 25/11/2020 by AM. From 60 to 63 due to change in design-->
+			<Parameter name="CYCLE_THRESHOLD_ABN_HIGH" reactionChamber="6" channel="3">34</Parameter> <!-- On 24/11/2020 by AM. From 35 to 34 according to pre-LoD values. &  On 25/11/2020 by AM. From 60 to 63 due to change in design-->
+			<Parameter name="ABN_AMPLIFICATION_DELTA" reactionChamber="6" channel="4">50000</Parameter>
+			<Parameter name="CYCLE_THRESHOLD_ABN_LOW" reactionChamber="6" channel="4">30</Parameter>
+			<Parameter name="CYCLE_THRESHOLD_ABN_HIGH" reactionChamber="6" channel="4">35</Parameter>				  
+			
+			<Parameter name="ABN_AMPLIFICATION_DELTA" reactionChamber="7" channel="0">50000</Parameter> <!-- On 24/11/2020 by AM. Change from 20000 to 50000 according to pre-LoD values -->
+			<Parameter name="CYCLE_THRESHOLD_ABN_LOW" reactionChamber="7" channel="0">30</Parameter> 
+			<Parameter name="CYCLE_THRESHOLD_ABN_HIGH" reactionChamber="7" channel="0">35</Parameter>
+			<Parameter name="ABN_AMPLIFICATION_DELTA" reactionChamber="7" channel="1">50000</Parameter> <!-- On 24/11/2020 by AM. Change from 20000 to 50000 according to pre-LoD values -->
+			<Parameter name="CYCLE_THRESHOLD_ABN_LOW" reactionChamber="7" channel="1">30</Parameter>
+			<Parameter name="CYCLE_THRESHOLD_ABN_HIGH" reactionChamber="7" channel="1">35</Parameter>
+			<Parameter name="ABN_AMPLIFICATION_DELTA" reactionChamber="7" channel="3">40000</Parameter> <!-- On 24/11/2020 by AM. Change from 20000 to 40000 according to pre-LoD values -->
+			<Parameter name="CYCLE_THRESHOLD_ABN_LOW" reactionChamber="7" channel="3">30</Parameter>
+			<Parameter name="CYCLE_THRESHOLD_ABN_HIGH" reactionChamber="7" channel="3">35</Parameter>
+			<Parameter name="ABN_AMPLIFICATION_DELTA" reactionChamber="7" channel="4">40000</Parameter>	<!-- On 24/11/2020 by AM. Change from 20000 to 40000 according to pre-LoD values -->			  
+			<Parameter name="CYCLE_THRESHOLD_ABN_LOW" reactionChamber="7" channel="4">30</Parameter>
+			<Parameter name="CYCLE_THRESHOLD_ABN_HIGH" reactionChamber="7" channel="4">35</Parameter>
+			
+			<Parameter name="ABN_AMPLIFICATION_DELTA" reactionChamber="8" channel="0">40000</Parameter> <!-- On 24/11/2020 by AM. Change from 20000 to 40000 according to pre-LoD values -->
+			<Parameter name="CYCLE_THRESHOLD_ABN_LOW" reactionChamber="8" channel="0">30</Parameter> 	  
+			<Parameter name="CYCLE_THRESHOLD_ABN_HIGH" reactionChamber="8" channel="0">35</Parameter>
+			<Parameter name="ABN_AMPLIFICATION_DELTA" reactionChamber="8" channel="3">40000</Parameter> <!-- On 24/11/2020 by AM. Change from 20000 to 40000 according to pre-LoD values -->
+			<Parameter name="CYCLE_THRESHOLD_ABN_LOW" reactionChamber="8" channel="3">30</Parameter>
+			<Parameter name="CYCLE_THRESHOLD_ABN_HIGH" reactionChamber="8" channel="3">35</Parameter>
+			<Parameter name="ABN_AMPLIFICATION_DELTA" reactionChamber="8" channel="4">50000</Parameter> <!-- On 24/11/2020 by AM. Change from 20000 to 50000 according to pre-LoD values -->
+			<Parameter name="CYCLE_THRESHOLD_ABN_LOW" reactionChamber="8" channel="4">30</Parameter>
+			<Parameter name="CYCLE_THRESHOLD_ABN_HIGH" reactionChamber="8" channel="4">35</Parameter>
+	  
+			<Parameter name="ALLOW_UNIVERSAL_MATRIX_CHECK">1</Parameter>
+			
+			<Parameter name="ALLOW_READ_MEASUREMENTS">1</Parameter>	
+			<Parameter name="ALLOW_MULTI_READ">1</Parameter>			
+			<Parameter channel="0" measurement="2" name="MULTI_READ_RESCALING">2.0</Parameter>
+			<Parameter channel="1" measurement="2" name="MULTI_READ_RESCALING">2.0</Parameter>
+			<Parameter channel="2" measurement="2" name="MULTI_READ_RESCALING">2.0</Parameter>
+			<Parameter channel="3" measurement="2" name="MULTI_READ_RESCALING">2.0</Parameter>
+			<Parameter channel="4" measurement="2" name="MULTI_READ_RESCALING">2.0</Parameter>
+			<Parameter channel="5" measurement="2" name="MULTI_READ_RESCALING">2.0</Parameter>
+			 	
+        </AssayParameters>
+        <AlgorithmParameters>
+            <Parameter name="NOISE_CHECK_SMOOTHING_PARAMETER">0.3</Parameter>
+            <Parameter name="MAX_NOISE">0.290</Parameter> 
+            <Parameter name="RESIDUAL_RANGE_NORMALIZATION_THRESHOLD">0.5</Parameter>
+            <Parameter name="SPLINE_FITTING_NUM_KNOTS">5</Parameter> 
+            <Parameter name="SPLINE_FITTING_LAMBDA">0.01</Parameter>
+            <Parameter name="SPLINE_FITTING_RESOLUTION">0.1</Parameter> 
+			<Parameter name="PARAMETRIC_CURVE_FIT_METHOD">BOBYQA</Parameter> 			
+            <Parameter name="PARAMETRIC_INITIAL_B">-20</Parameter>
+			<Parameter name="PARAMETRIC_BOUND_A_MIN">2000</Parameter>
+			<Parameter name="PARAMETRIC_BOUND_A_MAX">700000</Parameter>			
+			<Parameter name="PARAMETRIC_BOUND_B_MIN">-80</Parameter> 		
+			<Parameter name="PARAMETRIC_BOUND_B_MAX">-8</Parameter> 
+			<Parameter name="B_PARAMETER_SATURATION_DETECTION">70.0</Parameter>
+			<Parameter name="PARAMETRIC_BOUND_C0_MIN">11</Parameter>
+			<Parameter name="PARAMETRIC_BOUND_C0_MAX">42</Parameter> 		
+            <Parameter name="PARAMETRIC_MAX_EVALUATIONS">10000</Parameter>
+            <Parameter name="PARAMETRIC_MAX_ITERATIONS">7500</Parameter>            
+			<Parameter name="PARAMETRIC_STOPPING_TRUST_REGION_RADIUS">1e-8</Parameter> 
+            <Parameter name="CYCLE_THRESHOLD_STARTING_ESTIMATE_FACTOR">0.75</Parameter>
+            <Parameter name="CYCLE_THRESHOLD_PRECISION">0.01</Parameter> 
+            <Parameter name="CYCLE_THRESHOLD_MAX_ITERATIONS">20</Parameter>
+            <Parameter name="INITIAL_OUTLIER_THRESHOLD_FACTOR">2.0</Parameter>
+            <Parameter name="OUTLIER_THRESHOLD_FACTOR">5.0</Parameter>
+            <Parameter name="OUTLIERS_FRACTION">0.1</Parameter>
+            <Parameter name="OUTLIER_SMOOTHING_PARAMETER">0.25</Parameter>
+            <Parameter name="FIT_RESIDUALS_THRESHOLD_FACTOR">20</Parameter>
+			<Parameter name="OUTLIER_MIN_RESIDUAL">1000.0</Parameter>
+			<Parameter name="MAX_SATURATION">1000000</Parameter>			
+        </AlgorithmParameters>
+    </Amplification>
+</ProcessingModuleConfiguration>

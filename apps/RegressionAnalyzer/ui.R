@@ -65,7 +65,7 @@ ui <- fluidPage(
                        
                        #show controls here
       ),
-      # textOutput("text"), # used for troubleshooting
+      textOutput("text"), # used for troubleshooting
       width = 2
     ),
     # Panel

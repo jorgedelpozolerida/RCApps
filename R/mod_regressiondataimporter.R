@@ -22,7 +22,21 @@
 #' Reactivity, where to put and where not to
 
 
+# Define necessary variables ---------------------------------------------------
 
+pathtojsonfile <- "/home/shinyuser/RCApps/info/paths.json"
+
+defaultzipfile_path <- file.path(
+  "/home/shinyuser/RCApps/data/default_input/GI22_regression/GI22_regressionoutput.zip"
+)
+
+defaultconfigfile_path <- file.path(
+  "/home/shinyuser/RCApps/data/default_input/GI22_regression/rca_gastro2_config_2.0.2.xml"
+)
+
+
+
+# User Interface ---------------------------------------------------------------
 
 mod_regressiondataimporterUI <- function(id) {
   ns <- NS(id)
@@ -54,16 +68,47 @@ mod_regressiondataimporterServer <- function(id) {
       # Load regression datazip and return list with messages and targets
       zipdata_r <- reactive({
         if (is.null(input$input_dataset)) {
+          # # Default input file
+          # func_dataextractorfromzipfile(defaultzipfile_path)
+          # showModal(modalDialog(title = "Default regression zip file has been added", paste0(
+          #   "A default regression zip file has been added. 
+          #   Upload your own zip file for analysis. Path to file: ", "\n",
+          #   defaultzipfile_path
+          # )))
           return(NULL)
+          
         } else {
           func_dataextractorfromzipfile(input$input_dataset$datapath)
         }
       })
+      # zipdata_r <- reactive({
+      #   if (is.null(input$input_dataset)) {
+      #     return(NULL)
+      #   } else {
+      #     func_dataextractorfromzipfile(input$input_dataset$datapath)
+      #   }
+      # })
 
+      
       # Load config file data
       conf_xml_r <- reactive({
-        func_dataextractorfromconfigfile(input$input_config$datapath)
+        if (is.null(input$input_config)) {
+          # Default input file
+          # func_dataextractorfromconfigfile(defaultconfigfile_path)
+          # showModal(modalDialog(title = "Default config file has been added", paste0(
+          #   "A default configuration file has been added. Upload your own configuration file for analysis.
+          #   Path to file: ", "\n",
+          #   defaultconfigfile_path
+          # )))
+          return(NULL)
+          
+        } else {
+          func_dataextractorfromconfigfile(input$input_config$datapath)
+        }
       })
+      # conf_xml_r <- reactive({
+      #   func_dataextractorfromconfigfile(input$input_config$datapath)
+      # })
 
 
       return(list(

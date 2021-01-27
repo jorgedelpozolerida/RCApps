@@ -121,7 +121,7 @@ server <- function(input, output) {
 
   # HTMLs
   output$n_html <- renderInfoBox({
-    infoBox("Number of HTML files",
+    infoBox("Number of files",
       icon = icon("file", lib = "glyphicon"), color = "purple",
       value = as.character(htmlsummarydata_r()$n_doc)
     )
@@ -134,15 +134,15 @@ server <- function(input, output) {
   })
   # Rmarkdowns
   output$n_rmarkdown <- renderInfoBox({
-    infoBox("Number of HTML files",
+    infoBox("Number of files",
             icon = icon("file", lib = "glyphicon"), color = "purple",
             value = as.character(rmarkdownsummarydata_r()$n_doc)
     )
   })
-  output$n_authors_n_rmarkdowns <- renderInfoBox({
+  output$n_authors_rmarkdowns <- renderInfoBox({
     infoBox("Number of authors",
             icon = icon("user", lib = "glyphicon"), color = "blue",
-            value = as.character(n_rmarkdownssummarydata_r()$n_authors)
+            value = as.character(rmarkdownsummarydata_r()$n_authors)
     )
   })
   

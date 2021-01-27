@@ -20,7 +20,8 @@
 #' TO DO:
 #'
 #' Control only selecting one combination of Rc and CH
-#' Save sleected cartridge on plot or sidebar along all tabs?
+#' Save selected cartridge on plot or sidebar along all tabs?
+#' Have default input assigned...partially achieved..but not loading zip file..why?
 
 
 sapply(list.files("../../R", full.names = TRUE), source)
@@ -81,7 +82,7 @@ server <- function(input, output) {
                                    selecteddatafordisplay_r)
   
   output$text <- renderText({
-    t()
+    # length(regression_data$messages_r())
   })
 
 

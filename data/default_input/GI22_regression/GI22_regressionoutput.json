@@ -1,0 +1,7 @@
+{   
+    "filename": "GI22_regressionoutput",
+    "author": "jdelpozo",
+    "date": "2021-01-27",
+    "description": "Dataset used for Gastro2 verification, all runs until 21-01-19",
+    "comments": "This dataset is thought to be used as default input for apps"    
+}
