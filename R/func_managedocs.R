@@ -26,7 +26,7 @@
 # Function to get list of Markdowns and its info
 
 func_getdocssummary <- function(docs_path = "/home/shinyuser/RCA_htmls",
-                                docs_url = "http://10.156.1.177/RCA_htmls_development/",
+                                docs_url = "http://10.156.1.64/RCA_htmls_development/",
                                 docs_extension=".html") {
   dataout <- data.frame(
     jsonpath = list.files(docs_path,
